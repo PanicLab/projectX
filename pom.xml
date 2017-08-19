@@ -1,0 +1,68 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.github.paniclab</groupId>
+  <artifactId>projectX</artifactId>
+  <packaging>war</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>projectX Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+
+  <dependencies>
+      <dependency>
+          <groupId>com.h2database</groupId>
+          <artifactId>h2</artifactId>
+          <version>1.4.196</version>
+          <scope>compile</scope>
+      </dependency>
+
+      <dependency>
+          <groupId>javax.servlet</groupId>
+          <artifactId>servlet-api</artifactId>
+          <version>2.5</version>
+          <scope>provided</scope>
+      </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>projectX</finalName>
+      <defaultGoal>package</defaultGoal>
+
+      <plugins>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <version>3.6.1</version>
+              <configuration>
+                  <source>1.8</source>
+                  <target>1.8</target>
+              </configuration>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-war-plugin</artifactId>
+              <version>3.1.0</version>
+              <configuration>
+                  <webResources>
+                      <resource>
+                          <!-- this is relative to the pom.xml directory -->
+                          <directory>${project.basedir}/src/main/resources/database</directory>
+                          <directory>${project.basedir}/src/main/resources/sql/</directory>
+                      </resource>
+                  </webResources>
+              </configuration>
+          </plugin></plugins>
+
+      <sourceDirectory>
+          ${project.basedir}/src/main/java
+      </sourceDirectory>
+
+      <resources>
+          <resource>
+              <directory>
+                  ${project.basedir}/src/main/resources
+              </directory>
+          </resource>
+      </resources>
+  </build>
+</project>
