@@ -1,11 +1,8 @@
 package com.github.paniclab.services;
 
-import org.h2.tools.RunScript;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -13,11 +10,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Logger;
 
-public class CreateSchemaServiceImpl implements CreateSchemaService {
+class CreateSchemaServiceImpl implements CreateSchemaService {
     private static final Logger LOGGER = Logger.getAnonymousLogger();
     private Connection connection;
 
-    public CreateSchemaServiceImpl(Connection c) {
+    CreateSchemaServiceImpl(Connection c) {
         connection = c;
     }
 
@@ -80,7 +77,7 @@ public class CreateSchemaServiceImpl implements CreateSchemaService {
         try (Statement statement = connection.createStatement()) {
             sql = "DROP TABLE IF EXISTS USERS";
             statement.executeUpdate(sql);
-            LOGGER.info("Sql script createSchema executed successfully");
+            LOGGER.info("Sql script dropSchema executed successfully");
             return true;
         }catch (SQLException e) {
             e.printStackTrace();
