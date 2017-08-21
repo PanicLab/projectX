@@ -27,7 +27,7 @@ public class PasswordUtil {
         return sb.toString();
     }
 
-    public String getSalt() {
+    public String salt() {
         Random gen = new SecureRandom();
         byte[] salt = new byte[32];
         gen.nextBytes(salt);
@@ -35,6 +35,6 @@ public class PasswordUtil {
     }
 
     public String getSafe(String password) throws NoSuchAlgorithmException {
-        return getHashed(password + getSalt());
+        return getHashed(password + salt());
     }
 }
