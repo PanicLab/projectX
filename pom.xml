@@ -32,6 +32,7 @@
   </dependencies>
 
   <build>
+
     <finalName>projectX</finalName>
       <defaultGoal>package</defaultGoal>
 
@@ -60,7 +61,7 @@
                       <configuration>
                           <overwrite>true</overwrite>
                           <outputDirectory>
-                              ${project.build.directory}/${project.artifactId}-${project.version}/WEB-INF/
+                              ${project.build.directory}/${project.artifactId}/WEB-INF/
                           </outputDirectory>
                           <resources>
                               <resource>
@@ -72,5 +73,18 @@
               </executions>
           </plugin>
       </plugins>
+
+      <sourceDirectory>
+          ${project.basedir}/src/main/java
+      </sourceDirectory>
+
+      <resources>
+          <resource>
+              <directory>
+                  ${project.build.directory}/${project.artifactId}/WEB-INF/
+              </directory>
+          </resource>
+      </resources>
+
   </build>
 </project>
