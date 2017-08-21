@@ -32,6 +32,10 @@
         <servlet-name>AuthenticationServlet</servlet-name>
         <servlet-class>com.github.paniclab.servlets.AuthenticationServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GameServlet</servlet-name>
+        <servlet-class>com.github.paniclab.servlets.GameServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>WelcomeServlet</servlet-name>
         <url-pattern>/welcome</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>AuthenticationServlet</servlet-name>
         <url-pattern>/authentication</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GameServlet</servlet-name>
+        <url-pattern>/game</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>

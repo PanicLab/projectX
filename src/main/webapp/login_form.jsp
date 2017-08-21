@@ -7,7 +7,7 @@
 <body>
     <fieldset>
         <legend>${message}</legend>
-        <form method="post" action="">
+        <form method="post" action="game">
             <table cellpadding="2" cellspacing="2">
                 <tr>
                     <td>Имя</td>
