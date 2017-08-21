@@ -85,7 +85,7 @@ public class DataSourceInitListener implements ServletContextListener,
             pool = null;
         }
 
-
+        LOGGER.info("Context destroyed.");
     }
 
     // -------------------------------------------------------
@@ -115,5 +115,9 @@ public class DataSourceInitListener implements ServletContextListener,
                 e.printStackTrace();
             }
         }
+
+        JdbcConnectionPool pool =
+                (JdbcConnectionPool) se.getSession().getServletContext().getAttribute("connection_pool");
+        pool.dispose();
     }
 }

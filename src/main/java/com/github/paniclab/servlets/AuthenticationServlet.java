@@ -25,7 +25,7 @@ public class AuthenticationServlet extends HttpServlet {
             request.setAttribute("on_click_button_action", "Зарегистрироваться");
         }
 
-        session.setAttribute("message", message);
+        request.setAttribute("message", message);
         getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
         System.out.println("Выход из сервлета AuthenticationServlet");
     }
