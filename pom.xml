@@ -60,36 +60,17 @@
                       <configuration>
                           <overwrite>true</overwrite>
                           <outputDirectory>
-                              ${project.build.directory}/WEB-INF/
+                              ${project.build.directory}/${project.artifactId}-${project.version}/WEB-INF/
                           </outputDirectory>
+                          <resources>
+                              <resource>
+                                  <directory>${project.basedir}/src/main/resources</directory>
+                              </resource>
+                          </resources>
                       </configuration>
                   </execution>
               </executions>
-          </plugin><plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-war-plugin</artifactId>
-              <version>3.1.0</version>
-              <configuration>
-                  <webResources>
-                      <resource>
-                          <!-- this is relative to the pom.xml directory -->
-                          <directory>${project.basedir}/src/main/resources/database</directory>
-                          <directory>${project.basedir}/src/main/resources/sql/</directory>
-                      </resource>
-                  </webResources>
-              </configuration>
-          </plugin></plugins>
-
-      <sourceDirectory>
-          ${project.basedir}/src/main/java
-      </sourceDirectory>
-
-      <resources>
-          <resource>
-              <directory>
-                  ${project.basedir}/src/main/resources
-              </directory>
-          </resource>
-      </resources>
+          </plugin>
+      </plugins>
   </build>
 </project>
