@@ -7,3 +7,7 @@
     overflow: auto;
     margin:0 auto;
 }
+
+.colored_text {
+    color: red;
+}
