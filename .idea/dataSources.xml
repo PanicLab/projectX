@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="db" uuid="fff3ecef-ff3f-4e89-8b85-b689b2f88073">
+      <driver-ref>h2.unified</driver-ref>
+      <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
+      <jdbc-driver>org.h2.Driver</jdbc-driver>
+      <jdbc-url>jdbc:h2:C:\System\Store\projectX\src\main\resources\database\db</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="H2 - target" uuid="9728dfbe-3acd-4793-b828-eee4faee347e">
+      <driver-ref>h2.unified</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.h2.Driver</jdbc-driver>
+      <jdbc-url>jdbc:h2:C:\System\Store\projectX\target\WEB-INF\database\db.mv.db</jdbc-url>
+    </data-source>
+  </component>
+</project>
