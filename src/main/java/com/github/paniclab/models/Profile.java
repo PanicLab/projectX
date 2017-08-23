@@ -5,16 +5,19 @@
 package com.github.paniclab.models;
 
 public interface Profile {
-    Profile EMPTY = new ProfileImpl("", "");
+    Profile EMPTY = new ProfileImpl();
 
     static Profile of(String name) {
         return new ProfileImpl(name);
     }
 
+    static Profile of(String name, String password) {
+        return new ProfileImpl(name, password);
+    }
+
 
     String userName();
     String password();
-    String getSafePassword();
     boolean isEmpty();
     boolean isExist();
     default boolean isNotExist() {

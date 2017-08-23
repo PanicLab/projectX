@@ -73,11 +73,11 @@ public class DataSourceInitListener implements ServletContextListener,
         JdbcConnectionPool pool = (JdbcConnectionPool)sce.getServletContext().getAttribute("connection_pool");
 
         //TODO clean from production code ------------>
-        try (CreateSchemaService schemaService = CreateSchemaService.get(pool.getConnection())) {
+/*        try (CreateSchemaService schemaService = CreateSchemaService.get(pool.getConnection())) {
             schemaService.dropSchema();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }*/
         // ------------------------------------------->
 
         if(pool != null) {

@@ -20,8 +20,16 @@
         <param-name>db.password</param-name>
         <param-value></param-value>
     </context-param>
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>com.github.paniclab.filters.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/game</url-pattern>
+    </filter-mapping>
 
-  <listener>
+    <listener>
     <listener-class>com.github.paniclab.listeners.DataSourceInitListener</listener-class>
   </listener>
     <servlet>

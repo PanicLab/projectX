@@ -8,27 +8,35 @@ import java.util.Objects;
 class ProfileImpl implements Profile {
     private final String name;
     private final String password;
+    private final String salt;
 
     ProfileImpl() {
         this.name = "";
         this.password = "";
+        this.salt = "";
     }
 
     ProfileImpl(String name) {
         this.name = name;
-        this.password="";
+        this.password = "";
+        this.salt = "";
     }
 
     ProfileImpl(String name, String password) {
+        String salt;
         try {
-            password = new PasswordUtil().getSafe(password);
+            PasswordUtil util = new PasswordUtil();
+            salt = util.salt();
+            password = util.getHashed(salt + password);
         } catch (NoSuchAlgorithmException e) {
             password = "";
             name = "";
+            salt = "";
             e.printStackTrace();
         }
         this.name = name;
         this.password = password;
+        this.salt = salt;
     }
 
     @Override
@@ -38,11 +46,6 @@ class ProfileImpl implements Profile {
 
     @Override
     public String password() {
-        return password;
-    }
-
-    @Override
-    public String getSafePassword() {
         return password;
     }
 
