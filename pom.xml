@@ -39,11 +39,11 @@
       <resources>
           <resource>
               <directory>src/main/resources/sql</directory>
-              <targetPath>/../${artifactId}/WEB-INF/sql/</targetPath>
+              <targetPath>/../${project.artifactId}/WEB-INF/sql/</targetPath>
           </resource>
           <resource>
               <directory>src/main/resources</directory>
-              <targetPath>/../${artifactId}/WEB-INF/</targetPath>
+              <targetPath>/../${project.artifactId}/WEB-INF/</targetPath>
           </resource>
       </resources>
 
