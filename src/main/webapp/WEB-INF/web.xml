@@ -10,7 +10,7 @@
 
     <context-param>
         <param-name>db.relative_path</param-name>
-        <param-value>WEB-INF/database/db</param-value>
+        <param-value>WEB-INF/database/db.mv.db</param-value>
     </context-param>
     <context-param>
         <param-name>db.user</param-name>
