@@ -32,11 +32,20 @@ class CreateSchemaServiceImpl implements CreateSchemaService {
 
         String sql;
         try (Statement statement = connection.createStatement()) {
-            sql = "CREATE TABLE IF NOT EXISTS USERS (ID BIGINT AUTO_INCREMENT, NAME VARCHAR(255) NOT NULL)";
+            sql = "CREATE TABLE IF NOT EXISTS GAME_USERS (\n" +
+                    "  ID BIGINT AUTO_INCREMENT,\n" +
+                    "  NAME VARCHAR(255) NOT NULL,\n" +
+                    "  SALT VARCHAR(44) NOT NULL,\n" +
+                    "  PASSWORD VARCHAR(64) NOT NULL\n" +
+                    ");";
             statement.executeUpdate(sql);
 
-            sql = "ALTER TABLE USERS ADD CONSTRAINT IF NOT EXISTS users_pk PRIMARY KEY(ID)";
+            sql = "ALTER TABLE GAME_USERS ADD CONSTRAINT IF NOT EXISTS game_users_pk PRIMARY KEY (ID);";
             statement.executeUpdate(sql);
+
+            sql = "ALTER TABLE GAME_USERS ADD CONSTRAINT IF NOT EXISTS game_users_unique_names UNIQUE (NAME)";
+            statement.executeUpdate(sql);
+
             LOGGER.info("Sql script createSchema executed successfully");
             return true;
         }catch (SQLException e) {

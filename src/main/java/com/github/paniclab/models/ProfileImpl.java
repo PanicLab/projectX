@@ -1,5 +1,6 @@
 package com.github.paniclab.models;
 
+
 import com.github.paniclab.utils.PasswordUtil;
 
 import java.security.NoSuchAlgorithmException;
@@ -8,22 +9,20 @@ import java.util.Objects;
 class ProfileImpl implements Profile {
     private final String name;
     private final String password;
-    private final String salt;
+
 
     ProfileImpl() {
         this.name = "";
         this.password = "";
-        this.salt = "";
     }
 
     ProfileImpl(String name) {
         this.name = name;
         this.password = "";
-        this.salt = "";
     }
 
     ProfileImpl(String name, String password) {
-        String salt;
+/*        String salt;
         try {
             PasswordUtil util = new PasswordUtil();
             salt = util.salt();
@@ -33,10 +32,9 @@ class ProfileImpl implements Profile {
             name = "";
             salt = "";
             e.printStackTrace();
-        }
+        }*/
         this.name = name;
         this.password = password;
-        this.salt = salt;
     }
 
     @Override
@@ -54,11 +52,6 @@ class ProfileImpl implements Profile {
         return this.equals(Profile.EMPTY);
     }
 
-    //TODO not yet implemented
-    @Override
-    public boolean isExist() {
-        return false;
-    }
 
     @Override
     public int hashCode() {
@@ -78,7 +71,7 @@ class ProfileImpl implements Profile {
     @Override
     public String toString() {
         String result = "Объект: " + getClass().getCanonicalName() + ". " +
-        "@" + hashCode() + ". Имя: " + name;
+        "@" + hashCode() + ". Имя: " + name + ". ";
         return result;
     }
 }

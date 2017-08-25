@@ -39,6 +39,7 @@ public class DataSourceInitListener implements ServletContextListener,
         System.out.println("Базовая: " + BASE_DIR);
         final String DB_RELATIVE_PATH = sce.getServletContext().getInitParameter("db.relative_path");
         final String URL = "jdbc:h2:" + BASE_DIR + DB_RELATIVE_PATH;
+        System.out.println("Вот такая итоговая URL базы данных: " + URL);
 
         final String USER = sce.getServletContext().getInitParameter("db.user");
         final String PASS = sce.getServletContext().getInitParameter("db.password");
