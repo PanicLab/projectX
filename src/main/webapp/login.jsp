@@ -9,7 +9,7 @@
 <body>а
 
     <c:choose>
-        <c:when test="${requestScope.choice == 'login'}">
+        <c:when test="${param.action == 'login'}">
             <c:import url="login_form.jsp">
                 <c:param name="message" value="Пожалуйста, введите необходимые данные."/>
                 <c:param name="on_click_button_action" value="Войти"/>
