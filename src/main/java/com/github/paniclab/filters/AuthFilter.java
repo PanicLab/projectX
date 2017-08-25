@@ -4,6 +4,7 @@ import com.github.paniclab.models.Profile;
 
 import javax.servlet.*;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.logging.Logger;
 
@@ -17,9 +18,14 @@ public class AuthFilter implements Filter {
         String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
         String password = req.getParameter("password");
-        String message = firstName + " " + lastName + " " + password;
+        String message = firstName + lastName + password;
+        //ISO-8859-1
+        //Windows-1251
+        //UTF-8
+        //UTF-16
+        //UTF-16BE
 
-/*        byte[] bytes = message.getBytes("Windows-1251");
+/*        byte[] bytes = message.getBytes("ISO-8859-1");
         message = new String(bytes, "UTF-8");*/
         LOGGER.info(message);
         chain.doFilter(req, resp);
@@ -28,5 +34,4 @@ public class AuthFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
         LOGGER.info("Auth-фильтр создан успешно.");
     }
-
 }
