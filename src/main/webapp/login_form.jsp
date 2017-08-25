@@ -6,7 +6,7 @@
 </head>
 <body>
     <fieldset>
-        <legend>${message}</legend>
+        <legend>${param.message}</legend>
         <form method="post" action="game">
             <table cellpadding="2" cellspacing="2">
                 <tr>
@@ -23,7 +23,7 @@
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
-                    <td> <input type="submit" value="${on_click_button_action}"></td>
+                    <td> <input type="submit" value="${param.on_click_button_action}"></td>
                 </tr>
             </table>
         </form>
