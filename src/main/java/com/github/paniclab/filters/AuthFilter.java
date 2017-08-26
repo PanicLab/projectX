@@ -16,25 +16,14 @@ public class AuthFilter implements Filter {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
-/*        String firstName = req.getParameter("firstName");
-        String lastName = req.getParameter("lastName");
-        String password = req.getParameter("password");
-        String message = firstName + lastName + password;
 
-        String name = firstName + " " + lastName;
-        LOGGER.info("Имя пользователя: " + name);*/
         Profile profile = createProfile(req);
         LOGGER.info("Для последующей проверки создан профиль с именем " + profile.userName());
 
-/*        HttpServletRequest request = HttpServletRequest.class.cast(req);
-        Connection connection = (Connection) request.getSession().getAttribute("connection");
-        LOGGER.info(connection == null ? "Объект Connection равен null!" : "Объект Connection " + "получен успешно.");
-        ProfileService service = ProfileService.newInstance(connection);*/
         ProfileService service = createProfileService(req);
 
         String mode = req.getParameter("mode");
         LOGGER.info("Параметр mode запроса: " + mode);
-
         switch (mode) {
             case "login": {
                 LOGGER.info("Пользователь пытается залогиниться...");
@@ -43,6 +32,8 @@ public class AuthFilter implements Filter {
 
                     if(service.isPasswordValid(profile)) {
                         LOGGER.info("Фильтр: пароль для профиля введен верно.");
+                        LOGGER.info("Пользовательу спешно залогинился.");
+                        chain.doFilter(req, resp);
                     } else {
                         LOGGER.info("Фильтр: пароль для профиля введен неверно.");
                         LOGGER.info("Попытка залогиниться завершилась неудачно.");
@@ -70,22 +61,10 @@ public class AuthFilter implements Filter {
                 } else {
                     LOGGER.info("Фильтр: пользователя с таким именем не существует. Пытаемся сохранить профиль...");
                     service.saveNew(profile);
+                    chain.doFilter(req, resp);
                 }
             }
         }
-
-/*        if (service.isExist(profile)) {
-            LOGGER.info("Установлено, что такой профиль уже существует.");
-            if (service.isPasswordValid(profile)) {
-                LOGGER.info("Для профиля " + profile + "пароль введен верно.");
-            } else {
-                LOGGER.info("Для профиля " + profile + "пароль не верный.");
-            }
-        } else {
-            service.saveNew(profile);
-            LOGGER.info("Профиля не существует. Новый профиль сохранен.");
-        }*/
-        chain.doFilter(req, resp);
     }
 
     private Profile createProfile(ServletRequest req) {
