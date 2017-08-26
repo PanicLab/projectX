@@ -18,7 +18,7 @@
         <c:otherwise>
             <c:import url="login_form.jsp">
                 <c:param name="message" value="Пожалуйста, зарегистрируйтесь."/>
-                <c:param name="on_click_button_action" value="Зарегистрироваться."/>
+                <c:param name="on_click_button_action" value="Зарегистрироваться"/>
             </c:import>
         </c:otherwise>
     </c:choose>

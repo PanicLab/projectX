@@ -26,6 +26,7 @@
                     <td> <input type="submit" value="${param.on_click_button_action}"></td>
                 </tr>
             </table>
+            <input type="hidden" name="mode" value="${param.action}">
         </form>
     </fieldset>
 </body>

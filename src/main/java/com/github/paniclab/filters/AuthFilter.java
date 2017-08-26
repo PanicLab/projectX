@@ -16,21 +16,65 @@ public class AuthFilter implements Filter {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
-        String firstName = req.getParameter("firstName");
+/*        String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
         String password = req.getParameter("password");
         String message = firstName + lastName + password;
 
         String name = firstName + " " + lastName;
-        LOGGER.info("Имя пользователя: " + name);
-        HttpServletRequest request = HttpServletRequest.class.cast(req);
+        LOGGER.info("Имя пользователя: " + name);*/
+        Profile profile = createProfile(req);
+        LOGGER.info("Для последующей проверки создан профиль с именем " + profile.userName());
+
+/*        HttpServletRequest request = HttpServletRequest.class.cast(req);
         Connection connection = (Connection) request.getSession().getAttribute("connection");
         LOGGER.info(connection == null ? "Объект Connection равен null!" : "Объект Connection " + "получен успешно.");
+        ProfileService service = ProfileService.newInstance(connection);*/
+        ProfileService service = createProfileService(req);
 
-        Profile profile = Profile.valueOf(name, password);
-        LOGGER.info("Для последующей проверки создан профиль с именем " + profile.userName());
-        ProfileService service = ProfileService.newInstance(connection);
-        if (service.isExist(profile)) {
+        String mode = req.getParameter("mode");
+        LOGGER.info("Параметр mode запроса: " + mode);
+
+        switch (mode) {
+            case "login": {
+                LOGGER.info("Пользователь пытается залогиниться...");
+                if(service.isExist(profile)) {
+                    LOGGER.info("Фильтр: в БД такой профиль уже существует.");
+
+                    if(service.isPasswordValid(profile)) {
+                        LOGGER.info("Фильтр: пароль для профиля введен верно.");
+                    } else {
+                        LOGGER.info("Фильтр: пароль для профиля введен неверно.");
+                        LOGGER.info("Попытка залогиниться завершилась неудачно.");
+                        req.setAttribute("head", "Ошибка.");
+                        req.setAttribute("message", "Пароль введен неверно.");
+                        req.getRequestDispatcher("/error.jsp").forward(req, resp);
+                    }
+                } else {
+                    LOGGER.info("Попытка залогиниться завершилась неудачно.");
+                    req.setAttribute("head", "Ошибка.");
+                    req.setAttribute("message", "Пользователя с таким именем не существует.");
+                    req.getRequestDispatcher("/error.jsp").forward(req, resp);
+                }
+                break;
+            }
+            case "register": {}
+            default: {
+                LOGGER.info("Пользователь пытается зарегистрироваться...");
+                if(service.isExist(profile)) {
+                    LOGGER.info("Фильтр: Пользователь с таким именем существует");
+
+                    req.setAttribute("head", "Ошибка.");
+                    req.setAttribute("message", "Пользователя с таким именем уже существует.");
+                    req.getRequestDispatcher("/error.jsp").forward(req, resp);
+                } else {
+                    LOGGER.info("Фильтр: пользователя с таким именем не существует. Пытаемся сохранить профиль...");
+                    service.saveNew(profile);
+                }
+            }
+        }
+
+/*        if (service.isExist(profile)) {
             LOGGER.info("Установлено, что такой профиль уже существует.");
             if (service.isPasswordValid(profile)) {
                 LOGGER.info("Для профиля " + profile + "пароль введен верно.");
@@ -40,11 +84,27 @@ public class AuthFilter implements Filter {
         } else {
             service.saveNew(profile);
             LOGGER.info("Профиля не существует. Новый профиль сохранен.");
-        }
-
-        LOGGER.info(message);
+        }*/
         chain.doFilter(req, resp);
     }
+
+    private Profile createProfile(ServletRequest req) {
+        String firstName = req.getParameter("firstName");
+        String lastName = req.getParameter("lastName");
+        String password = req.getParameter("password");
+
+        String name = firstName + " " + lastName;
+        LOGGER.info("Имя пользователя: " + name);
+        return  Profile.valueOf(name, password);
+    }
+
+    private ProfileService createProfileService(ServletRequest req) {
+        HttpServletRequest request = HttpServletRequest.class.cast(req);
+        Connection connection = (Connection) request.getSession().getAttribute("connection");
+        LOGGER.info(connection == null ? "Объект Connection равен null!" : "Объект Connection получен успешно.");
+        return ProfileService.newInstance(connection);
+    }
+
 
     public void init(FilterConfig config) throws ServletException {
         LOGGER.info("Auth-фильтр создан успешно.");
