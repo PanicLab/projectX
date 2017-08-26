@@ -1,9 +1,6 @@
 package com.github.paniclab.models;
 
 
-import com.github.paniclab.utils.PasswordUtil;
-
-import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
 class ProfileImpl implements Profile {

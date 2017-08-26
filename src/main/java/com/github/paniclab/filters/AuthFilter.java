@@ -32,7 +32,8 @@ public class AuthFilter implements Filter {
 
                     if(service.isPasswordValid(profile)) {
                         LOGGER.info("Фильтр: пароль для профиля введен верно.");
-                        LOGGER.info("Пользовательу спешно залогинился.");
+                        LOGGER.info("Пользователь успешно залогинился.");
+                        req.setAttribute("userName", profile.userName());
                         chain.doFilter(req, resp);
                     } else {
                         LOGGER.info("Фильтр: пароль для профиля введен неверно.");
@@ -61,6 +62,7 @@ public class AuthFilter implements Filter {
                 } else {
                     LOGGER.info("Фильтр: пользователя с таким именем не существует. Пытаемся сохранить профиль...");
                     service.saveNew(profile);
+                    req.setAttribute("userName", profile.userName());
                     chain.doFilter(req, resp);
                 }
             }
