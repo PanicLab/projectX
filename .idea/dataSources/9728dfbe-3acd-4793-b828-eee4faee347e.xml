@@ -2,7 +2,7 @@
 <dataSource name="H2 - target">
   <database-model serializer="dbm" rdbms="H2" format-version="4.4">
     <root id="1"/>
-    <database id="2" parent="1" name="DB.MV.DB">
+    <database id="2" parent="1" name="DB">
       <Current>1</Current>
       <Visible>1</Visible>
     </database>

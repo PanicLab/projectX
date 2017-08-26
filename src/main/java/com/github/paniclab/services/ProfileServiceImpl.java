@@ -21,15 +21,33 @@ class ProfileServiceImpl implements ProfileService {
 
     @Override
     public boolean isExist(Profile profile) {
+        final int count;
         String sql = "SELECT COUNT(*) FROM GAME_USERS WHERE NAME = '" + profile.userName() + "'";
 
         try (Statement statement = connection.createStatement()){
             ResultSet rs = statement.executeQuery(sql);
-            if(rs.next()) return true;
+            rs.next();
+            count = rs.getInt(1);
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.severe("Не удалось проверить существование профиля. Ошибка при обращении к БД.");
+            return false;
         }
-        return false;
+
+        switch (count) {
+            case 0: {
+                LOGGER.info("Профиль " + profile + "отсутствует в БД.");
+                return false;
+            }
+            case 1: {
+                LOGGER.info("Профиль " + profile + "уже существует.");
+                return true;
+            }
+            default: {
+                throw new InternalError("Обнаружены проблемы с целостностью данных (несколько пользователей " +
+                        "с одинаковыми именами). Обратитесь к разработчику.");
+            }
+        }
     }
 
 /*    @Override
@@ -69,7 +87,9 @@ class ProfileServiceImpl implements ProfileService {
                         " в базе данных. Обратитесь к разработчику.");
             }
 
-            String hashedProfilePassword = getHashedPassword(salt + profile.userName());
+            String hashedProfilePassword = getHashedPassword(salt + profile.password());
+            LOGGER.info("Введенный пароль после хеширования: " + hashedProfilePassword);
+            LOGGER.info("Пароль из базы данных: " + databasePassword);
             return hashedProfilePassword.equals(databasePassword);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -97,17 +117,18 @@ class ProfileServiceImpl implements ProfileService {
             PasswordUtil util = new PasswordUtil();
             salt = util.salt();
             password = util.getHashed(salt + profile.password());
+            LOGGER.info("Хеширование пароля завершилось успешно.");
         } catch (NoSuchAlgorithmException e) {
             LOGGER.severe("Не удалось сохранить профиль " + profile + "Операция хеширования пароля не удалась.");
             e.printStackTrace();
             return false;
         }
 
-        String sql = String.format("INSERT INTO GAME_USERS (NAME, SALT, PASSWORD) VALUES (%s, %s, %s)",
+        String sql = String.format("INSERT INTO GAME_USERS (NAME, SALT, PASSWORD) VALUES ('%s', '%s', '%s')",
                 profile.userName(), salt, password);
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
-            LOGGER.fine("Сохранение профиля прошло успешно. Профиль: " + profile);
+            LOGGER.info("Сохранение профиля прошло успешно. Профиль: " + profile);
             return true;
         } catch (SQLException e) {
             LOGGER.severe("Не удалось сохранить профиль " + profile + "Ошибка при обращении к БД.");

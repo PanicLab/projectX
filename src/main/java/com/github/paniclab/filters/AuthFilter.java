@@ -28,18 +28,18 @@ public class AuthFilter implements Filter {
         LOGGER.info(connection == null ? "Объект Connection равен null!" : "Объект Connection " + "получен успешно.");
 
         Profile profile = Profile.valueOf(name, password);
-        LOGGER.info("Создан профиль с именем " + profile.userName());
+        LOGGER.info("Для последующей проверки создан профиль с именем " + profile.userName());
         ProfileService service = ProfileService.newInstance(connection);
         if (service.isExist(profile)) {
-            LOGGER.info("Такой профиль существует.");
+            LOGGER.info("Установлено, что такой профиль уже существует.");
             if (service.isPasswordValid(profile)) {
-                LOGGER.info("Пароль введен верно.");
+                LOGGER.info("Для профиля " + profile + "пароль введен верно.");
             } else {
-                LOGGER.info("Пароль не верный.");
+                LOGGER.info("Для профиля " + profile + "пароль не верный.");
             }
         } else {
             service.saveNew(profile);
-            LOGGER.info("Новый профиль сохранен.");
+            LOGGER.info("Профиля не существует. Новый профиль сохранен.");
         }
 
         LOGGER.info(message);
