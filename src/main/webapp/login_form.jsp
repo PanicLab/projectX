@@ -7,7 +7,7 @@
 <body>
     <fieldset>
         <legend>${param.message}</legend>
-        <form method="post" action="game">
+        <form method="post" action="game_menu">
             <table cellpadding="2" cellspacing="2">
                 <tr>
                     <td>Имя</td>
