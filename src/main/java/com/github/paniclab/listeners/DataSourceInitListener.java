@@ -46,6 +46,9 @@ public class DataSourceInitListener implements ServletContextListener,
         JdbcConnectionPool pool = JdbcConnectionPool.create(URL,USER, PASS);
         sce.getServletContext().setAttribute("connection_pool", pool);
         LOGGER.info("Jdbc h2 connection pool initialized");
+        LOGGER.info("URL базы данных: " + URL);
+        LOGGER.info("Логин пользователя: " + USER);
+        LOGGER.info("Пароль пользователя: " + PASS);
 
         try (CreateSchemaService schemaService = CreateSchemaService.get(pool.getConnection())) {
             schemaService.createSchema();

@@ -39,7 +39,8 @@ class CreateSchemaServiceImpl implements CreateSchemaService {
                     "  PASSWORD VARCHAR(64) NOT NULL,\n" +
                     "  BEST_RESULT INT DEFAULT NULL,\n" +
                     "  LAST_RESULT INT DEFAULT NULL,\n" +
-                    "  AUTORITY INT DEFAULT 0\n" +
+                    "  AVERAGE_RESULT DECIMAL DEFAULT NULL,\n" +
+                    "  AUTHORITY INT DEFAULT 0\n" +
                     ")";
             statement.executeUpdate(sql);
 
@@ -49,7 +50,23 @@ class CreateSchemaServiceImpl implements CreateSchemaService {
             sql = "ALTER TABLE GAME_USERS ADD CONSTRAINT IF NOT EXISTS game_users_unique_names UNIQUE (NAME)";
             statement.executeUpdate(sql);
 
-            LOGGER.info("Sql script createSchema executed successfully");
+            sql = "MERGE INTO GAME_USERS (NAME, SALT, PASSWORD, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, AUTHORITY) " +
+                    "KEY (NAME) VALUES ('Владимир П.', '1', '1', 1, 1, 1, 86)";
+            statement.executeUpdate(sql);
+
+            sql = "MERGE INTO GAME_USERS (NAME, SALT, PASSWORD, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, AUTHORITY) " +
+                    "KEY (NAME) VALUES ('RAMZAN', '3', '3', 3, 148, 3, 10)";
+            statement.executeUpdate(sql);
+
+            sql = "MERGE INTO GAME_USERS (NAME, SALT, PASSWORD, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, AUTHORITY) KEY (NAME)\n" +
+                    "VALUES ('Albert E.', '6', '6', 6, 6, 9.56, 0)";
+            statement.executeUpdate(sql);
+
+            sql = "MERGE INTO GAME_USERS (NAME, SALT, PASSWORD, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, AUTHORITY) KEY (NAME)\n" +
+                    "VALUES ('Воронин Лёня', '46', '46', 24, 35, 46.2, 0)";
+            statement.executeUpdate(sql);
+
+            LOGGER.info("SQL схема создана успешно.");
             return true;
         }catch (SQLException e) {
             e.printStackTrace();

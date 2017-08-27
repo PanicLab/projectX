@@ -18,7 +18,7 @@
     </context-param>
     <context-param>
         <param-name>db.password</param-name>
-        <param-value></param-value>
+        <param-value>sa</param-value>
     </context-param>
     <filter>
         <filter-name>CharsetFilter</filter-name>
