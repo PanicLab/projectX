@@ -36,8 +36,11 @@ class CreateSchemaServiceImpl implements CreateSchemaService {
                     "  ID BIGINT AUTO_INCREMENT,\n" +
                     "  NAME VARCHAR(255) NOT NULL,\n" +
                     "  SALT VARCHAR(44) NOT NULL,\n" +
-                    "  PASSWORD VARCHAR(64) NOT NULL\n" +
-                    ");";
+                    "  PASSWORD VARCHAR(64) NOT NULL,\n" +
+                    "  BEST_RESULT INT DEFAULT NULL,\n" +
+                    "  LAST_RESULT INT DEFAULT NULL,\n" +
+                    "  AUTORITY INT DEFAULT 0\n" +
+                    ")";
             statement.executeUpdate(sql);
 
             sql = "ALTER TABLE GAME_USERS ADD CONSTRAINT IF NOT EXISTS game_users_pk PRIMARY KEY (ID);";
