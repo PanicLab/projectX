@@ -41,7 +41,6 @@
                                         value="${user.averageResult}"/>
                             </c:otherwise>
                         </c:choose>
-<%--                        <c:out value="${user.averageResult}"/>--%>
                     </td>
                     <td>
                         <c:choose>
