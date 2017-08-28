@@ -70,4 +70,12 @@ class UserImpl implements User {
     public void setAuthority(int authority) {
         this.authority = authority;
     }
+
+    @Override
+    public String toString() {
+        final String LS = System.lineSeparator();
+        return "Объект User" + LS + "ID: " + getId() + LS + "Имя: " + getName() + LS + "Средний результат: " +
+                getAverageResult() + LS + "Лучший результат: " + getBestResult() + LS + "Последний результат: " +
+                getLastResult() + LS + "Доп. критерий сортировки: " + getAuthority() + LS;
+    }
 }
