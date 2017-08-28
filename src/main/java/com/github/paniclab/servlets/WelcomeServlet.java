@@ -8,7 +8,9 @@ import java.io.IOException;
 
 public class WelcomeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Внутри WelcomeServlet");
+        System.out.println("Вход в WelcomeServlet");
+
+        System.out.println("WelcomeServlet пробрасывает на index.html");
         getServletContext().getRequestDispatcher("/index.html").forward(request,response);
         System.out.println("Выход из WelcomeServlet");
     }

@@ -20,6 +20,7 @@
         <param-name>db.password</param-name>
         <param-value>sa</param-value>
     </context-param>
+
     <filter>
         <filter-name>CharsetFilter</filter-name>
         <filter-class>com.github.paniclab.filters.CharsetFilter</filter-class>
@@ -38,8 +39,9 @@
     </filter-mapping>
 
     <listener>
-    <listener-class>com.github.paniclab.listeners.DataSourceInitListener</listener-class>
-  </listener>
+        <listener-class>com.github.paniclab.listeners.DataSourceInitListener</listener-class>
+    </listener>
+
     <servlet>
         <servlet-name>WelcomeServlet</servlet-name>
         <servlet-class>com.github.paniclab.servlets.WelcomeServlet</servlet-class>
@@ -52,6 +54,7 @@
         <servlet-name>GameMenuServlet</servlet-name>
         <servlet-class>com.github.paniclab.servlets.GameMenuServlet</servlet-class>
     </servlet>
+
     <servlet-mapping>
         <servlet-name>WelcomeServlet</servlet-name>
         <url-pattern>/welcome</url-pattern>

@@ -8,5 +8,9 @@
 <body>
     Это страничка игры.
     Профиль: ${userName}
+
+    <fieldset>
+
+    </fieldset>
 </body>
 </html>
