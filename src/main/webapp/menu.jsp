@@ -29,18 +29,39 @@
                         <c:out value="${user.name}"/>
                     </td>
                     <td>
-                        <fmt:formatNumber
-                                type="number"
-                                minFractionDigits="2"
-                                maxFractionDigits="2"
-                                value="${user.averageResult}"/>
+                        <c:choose>
+                            <c:when test="${empty user.averageResult || user.averageResult == 0}">
+                                <c:out value="-"/>
+                            </c:when>
+                            <c:otherwise>
+                                <fmt:formatNumber
+                                        type="number"
+                                        minFractionDigits="2"
+                                        maxFractionDigits="2"
+                                        value="${user.averageResult}"/>
+                            </c:otherwise>
+                        </c:choose>
 <%--                        <c:out value="${user.averageResult}"/>--%>
                     </td>
                     <td>
-                        <c:out value="${user.bestResult}"/>
+                        <c:choose>
+                            <c:when test="${empty user.bestResult || user.bestResult == 0}">
+                                <c:out value="-"/>
+                            </c:when>
+                            <c:otherwise>
+                                <c:out value="${user.bestResult}"/>
+                            </c:otherwise>
+                        </c:choose>
                     </td>
                     <td>
-                        <c:out value="${user.lastResult}"/>
+                        <c:choose>
+                            <c:when test="${empty user.lastResult || user.lastResult == 0}">
+                                <c:out value="-"/>
+                            </c:when>
+                            <c:otherwise>
+                                <c:out value="${user.lastResult}"/>
+                            </c:otherwise>
+                        </c:choose>
                     </td>
                 </tr>
             </c:forEach>
