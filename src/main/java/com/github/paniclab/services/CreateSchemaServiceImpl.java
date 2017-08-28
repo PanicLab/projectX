@@ -59,11 +59,11 @@ class CreateSchemaServiceImpl implements CreateSchemaService {
             statement.executeUpdate(sql);
 
             sql = "MERGE INTO GAME_USERS (NAME, SALT, PASSWORD, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, AUTHORITY) KEY (NAME)\n" +
-                    "VALUES ('Albert E.', '6', '6', 6, 6, 9.56, 0)";
+                    "VALUES ('Albert E.', '6', '6', 6, 6, 7.5, 0)";
             statement.executeUpdate(sql);
 
             sql = "MERGE INTO GAME_USERS (NAME, SALT, PASSWORD, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, AUTHORITY) KEY (NAME)\n" +
-                    "VALUES ('Воронин Лёня', '46', '46', 24, 35, 46.2, 0)";
+                    "VALUES ('Воронин Лёня', '46', '46', 24, 35, 46.21, 0)";
             statement.executeUpdate(sql);
 
             LOGGER.info("SQL схема создана успешно.");

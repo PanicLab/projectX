@@ -36,7 +36,7 @@ class UserServiceImpl implements UserService {
                 user.setName(rs.getString("NAME"));
                 user.setBestResult(rs.getInt("BEST_RESULT"));
                 user.setLastResult(rs.getInt("LAST_RESULT"));
-                user.setAverageResult(rs.getInt("AVERAGE_RESULT"));
+                user.setAverageResult(rs.getFloat("AVERAGE_RESULT"));
                 user.setAuthority(rs.getInt("AUTHORITY"));
 
                 result.add(user);
