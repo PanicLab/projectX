@@ -7,6 +7,7 @@ class UserImpl implements User {
     private int bestResult;
     private int lastResult;
     private float averageResult;
+    private int attemptsCount;
     private int authority;
 
     UserImpl() {}
@@ -49,6 +50,16 @@ class UserImpl implements User {
     @Override
     public void setLastResult(int lastResult) {
         this.lastResult = lastResult;
+    }
+
+    @Override
+    public int getAttemptsCount() {
+        return attemptsCount;
+    }
+
+    @Override
+    public void setAttemptsCount(int attemptsCount) {
+        this.attemptsCount = attemptsCount;
     }
 
     @Override

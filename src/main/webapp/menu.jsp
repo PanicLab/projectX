@@ -19,6 +19,7 @@
                 <th>Ср. результат</th>
                 <th>Лучший результат</th>
                 <th>Последний результат</th>
+                <th>Попыток</th>
             </tr>
             <c:forEach var="user" items="${requestScope.userList}" begin="0" varStatus="current">
                 <tr>
@@ -59,6 +60,16 @@
                             </c:when>
                             <c:otherwise>
                                 <c:out value="${user.lastResult}"/>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${empty user.attemptsCount || user.attemptsCount == 0}">
+                                <c:out value="-"/>
+                            </c:when>
+                            <c:otherwise>
+                                <c:out value="${user.attemptsCount}"/>
                             </c:otherwise>
                         </c:choose>
                     </td>

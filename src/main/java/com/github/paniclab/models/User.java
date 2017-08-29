@@ -20,6 +20,9 @@ public interface User {
     float getAverageResult();
     void setAverageResult(float averageResult);
 
+    int getAttemptsCount();
+    void setAttemptsCount(int attemptsCount);
+
     int getAuthority();
     void setAuthority(int authority);
 }

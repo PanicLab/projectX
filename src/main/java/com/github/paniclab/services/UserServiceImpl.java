@@ -26,8 +26,9 @@ class UserServiceImpl implements UserService {
         String sql;
 
         try (Statement statement = connection.createStatement()){
-            sql = "SELECT ID, NAME, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, AUTHORITY FROM GAME_USERS ORDER BY " +
-                    "AVERAGE_RESULT NULLS LAST, BEST_RESULT NULLS LAST, LAST_RESULT NULLS LAST, AUTHORITY DESC";
+            sql = "SELECT ID, NAME, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, ATTEMPTS_COUNT, AUTHORITY FROM GAME_USERS " +
+                    "ORDER BY AVERAGE_RESULT NULLS LAST, BEST_RESULT NULLS LAST, LAST_RESULT NULLS LAST, " +
+                    "AUTHORITY DESC";
             ResultSet rs = statement.executeQuery(sql);
 
             while (rs.next()) {
@@ -36,6 +37,7 @@ class UserServiceImpl implements UserService {
                 user.setName(rs.getString("NAME"));
                 user.setBestResult(rs.getInt("BEST_RESULT"));
                 user.setLastResult(rs.getInt("LAST_RESULT"));
+                user.setAttemptsCount(rs.getInt("ATTEMPTS_COUNT"));
                 user.setAverageResult(rs.getFloat("AVERAGE_RESULT"));
                 user.setAuthority(rs.getInt("AUTHORITY"));
 

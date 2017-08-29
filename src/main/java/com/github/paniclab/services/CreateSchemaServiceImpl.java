@@ -40,6 +40,7 @@ class CreateSchemaServiceImpl implements CreateSchemaService {
                     "  BEST_RESULT INT DEFAULT NULL,\n" +
                     "  LAST_RESULT INT DEFAULT NULL,\n" +
                     "  AVERAGE_RESULT DECIMAL DEFAULT NULL,\n" +
+                    "  ATTEMPTS_COUNT INT DEFAULT NULL,\n" +
                     "  AUTHORITY INT DEFAULT 0\n" +
                     ")";
             statement.executeUpdate(sql);
@@ -50,20 +51,20 @@ class CreateSchemaServiceImpl implements CreateSchemaService {
             sql = "ALTER TABLE GAME_USERS ADD CONSTRAINT IF NOT EXISTS game_users_unique_names UNIQUE (NAME)";
             statement.executeUpdate(sql);
 
-            sql = "MERGE INTO GAME_USERS (NAME, SALT, PASSWORD, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, AUTHORITY) " +
-                    "KEY (NAME) VALUES ('Владимир П.', '1', '1', 1, 1, 1, 86)";
+            sql = "MERGE INTO GAME_USERS (NAME, SALT, PASSWORD, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, " +
+                    "ATTEMPTS_COUNT, AUTHORITY) KEY (NAME) VALUES ('Владимир П.', '1', '1', 1, 1, 1, 6205, 86)";
             statement.executeUpdate(sql);
 
-            sql = "MERGE INTO GAME_USERS (NAME, SALT, PASSWORD, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, AUTHORITY) " +
-                    "KEY (NAME) VALUES ('RAMZAN', '3', '3', 3, 148, 3, 10)";
+            sql = "MERGE INTO GAME_USERS (NAME, SALT, PASSWORD, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, " +
+                    "ATTEMPTS_COUNT, AUTHORITY) KEY (NAME) VALUES ('RAMZAN', '3', '3', 3, 148, 3, 1000, 10)";
             statement.executeUpdate(sql);
 
-            sql = "MERGE INTO GAME_USERS (NAME, SALT, PASSWORD, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, AUTHORITY) KEY (NAME)\n" +
-                    "VALUES ('Albert E.', '6', '6', 6, 6, 7.5, 0)";
+            sql = "MERGE INTO GAME_USERS (NAME, SALT, PASSWORD, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, " +
+                    "ATTEMPTS_COUNT, AUTHORITY) KEY (NAME) VALUES ('Albert E.', '6', '6', 6, 6, 7.5, 2, 0)";
             statement.executeUpdate(sql);
 
-            sql = "MERGE INTO GAME_USERS (NAME, SALT, PASSWORD, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, AUTHORITY) KEY (NAME)\n" +
-                    "VALUES ('Воронин Лёня', '46', '46', 24, 35, 46.21, 0)";
+            sql = "MERGE INTO GAME_USERS (NAME, SALT, PASSWORD, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, " +
+                    "ATTEMPTS_COUNT, AUTHORITY) KEY (NAME) VALUES ('Воронин Лёня', '46', '46', 24, 35, 46.21, 314, 0)";
             statement.executeUpdate(sql);
 
             LOGGER.info("SQL схема создана успешно.");
