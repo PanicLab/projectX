@@ -1,12 +1,13 @@
 .simple_block {
     width: 50%;
     margin: 0 auto;
-    text-align: center
+    text-align: center;
 }
 
 .colored_text {
     color: red;
 }
+
 legend, caption{
     font-weight: bold;
     color: red;

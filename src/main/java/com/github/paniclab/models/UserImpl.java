@@ -1,6 +1,8 @@
 package com.github.paniclab.models;
 
 
+import java.util.Objects;
+
 class UserImpl implements User {
     private long id;
     private String name;
@@ -10,7 +12,10 @@ class UserImpl implements User {
     private int attemptsCount;
     private int authority;
 
-    UserImpl() {}
+    UserImpl() {
+        this.id = -1;
+        this.name = "UNKNOWN";
+    }
 
     @Override
     public long getId() {
@@ -80,6 +85,21 @@ class UserImpl implements User {
     @Override
     public void setAuthority(int authority) {
         this.authority = authority;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return  false;
+        if (this == obj) return true;
+        if(!(this.hashCode() == obj.hashCode())) return false;
+        if(!(obj instanceof User)) return false;
+        User other = User.class.cast(obj);
+        return this.getId() == other.getId();
     }
 
     @Override

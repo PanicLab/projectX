@@ -52,4 +52,36 @@ class UserServiceImpl implements UserService {
 
         return result;
     }
+
+    private User extractUserFrom(ResultSet rs) throws SQLException {
+        User user = User.newInstance();
+
+        user.setId(rs.getLong("ID"));
+        user.setName(rs.getString("NAME"));
+        user.setBestResult(rs.getInt("BEST_RESULT"));
+        user.setLastResult(rs.getInt("LAST_RESULT"));
+        user.setAttemptsCount(rs.getInt("ATTEMPTS_COUNT"));
+        user.setAverageResult(rs.getFloat("AVERAGE_RESULT"));
+        user.setAuthority(rs.getInt("AUTHORITY"));
+
+        return user;
+    }
+
+
+    @Override
+    public User getUserByName(String userName) {
+        LOGGER.info("Объект UserService пытается возвратить объект USER по имени " + userName);
+        String sql;
+
+        try (Statement statement = connection.createStatement()) {
+            sql = String.format("SELECT ID, NAME, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, ATTEMPTS_COUNT, AUTHORITY " +
+                    "FROM GAME_USERS WHERE NAME = '%s'", userName);
+            ResultSet resultSet = statement.executeQuery(sql);
+            return extractUserFrom(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return User.newInstance();
+    }
 }

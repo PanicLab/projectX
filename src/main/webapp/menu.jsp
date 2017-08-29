@@ -8,7 +8,7 @@
     <title>Бык-корова</title>
 </head>
 <body>
-    Это страничка игры.
+
     Профиль: ${userName}
 
     <fieldset>
@@ -79,5 +79,8 @@
             </c:forEach>
         </table>
     </fieldset>
+    <div class="simple_block">
+        <p><a href="game">Начать игру</a>
+    </div>
 </body>
 </html>
