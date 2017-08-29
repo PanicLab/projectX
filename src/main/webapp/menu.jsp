@@ -3,8 +3,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>" />
     <title>Бык-корова</title>
-    <meta charset="UTF-8"/>
 </head>
 <body>
     Это страничка игры.
@@ -13,6 +14,7 @@
     <fieldset>
         <legend>Таблица результатов</legend>
         <table cellpadding="2" cellspacing="2">
+            <caption>Лучшие из лучших</caption>
             <tr>
                 <th>Место</th>
                 <th>Имя</th>
