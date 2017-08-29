@@ -14,7 +14,7 @@
     <fieldset>
         <legend>Таблица результатов</legend>
         <table cellpadding="2" cellspacing="2">
-            <caption>Лучшие из лучших</caption>
+            <caption>ЛУЧШИЕ ИЗ ЛУЧШИХ</caption>
             <tr>
                 <th>Место</th>
                 <th>Имя</th>

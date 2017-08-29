@@ -7,6 +7,10 @@
 .colored_text {
     color: red;
 }
+legend, caption{
+    font-weight: bold;
+    color: red;
+}
 
 table {
     font-size: 14px;
