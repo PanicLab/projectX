@@ -88,6 +88,11 @@ class UserImpl implements User {
     }
 
     @Override
+    public boolean isNotEmpty() {
+        return this.id >= 0;
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(id);
     }

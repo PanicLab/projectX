@@ -25,4 +25,6 @@ public interface User {
 
     int getAuthority();
     void setAuthority(int authority);
+
+    boolean isNotEmpty();
 }

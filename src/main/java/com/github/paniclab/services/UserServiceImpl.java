@@ -55,14 +55,15 @@ class UserServiceImpl implements UserService {
 
     private User extractUserFrom(ResultSet rs) throws SQLException {
         User user = User.newInstance();
-
-        user.setId(rs.getLong("ID"));
-        user.setName(rs.getString("NAME"));
-        user.setBestResult(rs.getInt("BEST_RESULT"));
-        user.setLastResult(rs.getInt("LAST_RESULT"));
-        user.setAttemptsCount(rs.getInt("ATTEMPTS_COUNT"));
-        user.setAverageResult(rs.getFloat("AVERAGE_RESULT"));
-        user.setAuthority(rs.getInt("AUTHORITY"));
+        if (rs.next()) {
+            user.setId(rs.getLong("ID"));
+            user.setName(rs.getString("NAME"));
+            user.setBestResult(rs.getInt("BEST_RESULT"));
+            user.setLastResult(rs.getInt("LAST_RESULT"));
+            user.setAttemptsCount(rs.getInt("ATTEMPTS_COUNT"));
+            user.setAverageResult(rs.getFloat("AVERAGE_RESULT"));
+            user.setAuthority(rs.getInt("AUTHORITY"));
+        }
 
         return user;
     }
@@ -70,18 +71,24 @@ class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByName(String userName) {
-        LOGGER.info("Объект UserService пытается возвратить объект USER по имени " + userName);
+        LOGGER.info("Объект UserService пытается возвратить объект USER по имени " + userName + "...");
         String sql;
 
         try (Statement statement = connection.createStatement()) {
             sql = String.format("SELECT ID, NAME, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, ATTEMPTS_COUNT, AUTHORITY " +
                     "FROM GAME_USERS WHERE NAME = '%s'", userName);
             ResultSet resultSet = statement.executeQuery(sql);
-            return extractUserFrom(resultSet);
+            User user = extractUserFrom(resultSet);
+            if(resultSet.next()) throw new InternalError("Обнаружены проблемы с целостностью данных (несколько " +
+                    "пользователей с одинаковыми именами). Обратитесь к разработчику.");
+            LOGGER.info("Объект User с именем " + userName + "найден и успешно извлечен из БД.");
+            return user;
         } catch (SQLException e) {
+            LOGGER.severe("Не удалось извлечь объект User. Ошибка при обращении к БД.");
             e.printStackTrace();
         }
 
+        LOGGER.info("Объект UserService возвращает пустой объект USER.");
         return User.newInstance();
     }
 }
