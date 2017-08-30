@@ -1,19 +1,24 @@
 package com.github.paniclab.filters;
 
 import com.github.paniclab.models.Profile;
+import com.github.paniclab.models.User;
 import com.github.paniclab.services.ProfileService;
+import com.github.paniclab.services.UserService;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.logging.Logger;
 
 public class GameMenuFilter implements Filter {
     private static final Logger LOGGER = Logger.getAnonymousLogger();
+
     public void destroy() {
         LOGGER.info("Auth-фильтр уничтожен.");
     }
+
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         System.out.println("Поток управления вошел в GameMenuFilter");
@@ -21,7 +26,7 @@ public class GameMenuFilter implements Filter {
         Profile profile = createProfile(req);
         LOGGER.info("Для последующей проверки создан профиль с именем " + profile.userName());
 
-        ProfileService service = createProfileService(req);
+        ProfileService service = profileService(req);
 
         String mode = req.getParameter("mode");
         LOGGER.info("Параметр mode запроса: " + mode);
@@ -34,6 +39,8 @@ public class GameMenuFilter implements Filter {
                     if(service.isPasswordValid(profile)) {
                         LOGGER.info("Фильтр: пароль для профиля введен верно.");
                         LOGGER.info("Пользователь успешно залогинился.");
+                        User newUser = userService(req).getUserByName(profile.userName());
+                        getSession(req).setAttribute("user", newUser);
                         req.setAttribute("userName", profile.userName());
                         System.out.println("GameMenuFilter вызывает doFilter()");
                         chain.doFilter(req, resp);
@@ -54,6 +61,7 @@ public class GameMenuFilter implements Filter {
                 }
                 break;
             }
+
             case "register": {}
             default: {
                 LOGGER.info("Пользователь пытается зарегистрироваться...");
@@ -68,6 +76,8 @@ public class GameMenuFilter implements Filter {
                     LOGGER.info("Фильтр: пользователя с таким именем не существует. Пытаемся сохранить профиль...");
                     service.saveNew(profile);
                     req.setAttribute("userName", profile.userName());
+                    User newUser = userService(req).getUserByName(profile.userName());
+                    getSession(req).setAttribute("user", newUser);
                     System.out.println("GameMenuFilter вызывает doFilter()");
                     chain.doFilter(req, resp);
                 }
@@ -75,6 +85,7 @@ public class GameMenuFilter implements Filter {
         }
         System.out.println("Выход из GameMenuFilter");
     }
+
 
     private Profile createProfile(ServletRequest req) {
         String firstName = req.getParameter("firstName");
@@ -86,11 +97,22 @@ public class GameMenuFilter implements Filter {
         return  Profile.valueOf(name, password);
     }
 
-    private ProfileService createProfileService(ServletRequest req) {
-        HttpServletRequest request = HttpServletRequest.class.cast(req);
-        Connection connection = (Connection) request.getSession().getAttribute("connection");
+
+    private ProfileService profileService(ServletRequest req) {
+        Connection connection = (Connection)getSession(req).getAttribute("connection");
         LOGGER.info(connection == null ? "Объект Connection равен null!" : "Объект Connection получен успешно.");
         return ProfileService.newInstance(connection);
+    }
+
+    private HttpSession getSession(ServletRequest request) {
+        return HttpServletRequest.class.cast(request).getSession();
+    }
+
+
+    private UserService userService(ServletRequest req) {
+        Connection connection = (Connection)getSession(req).getAttribute("connection");
+        LOGGER.info(connection == null ? "Объект Connection равен null!" : "Объект Connection получен успешно.");
+        return UserService.newInstance(connection);
     }
 
 
