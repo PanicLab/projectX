@@ -10,7 +10,7 @@ public interface GameSession {
 
     String getNumber();
     int getStageCount();
-    void makeNewAttempt(int attempt);
+    void makeNewAttempt(String attempt);
     List<Stage> getStageList();
     boolean isOver();
 }

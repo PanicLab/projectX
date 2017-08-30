@@ -30,34 +30,34 @@ class GameSessionImpl implements GameSession {
 
 
     @Override
-    public void makeNewAttempt(int attempt) {
+    public void makeNewAttempt(String attempt) {
         stageCount++;
-        checkWinConditions(attempt);
         Stage stage = createStage(attempt);
         stageList.add(stage);
+        checkWinConditions(attempt);
     }
 
-    private void checkWinConditions(int attempt) {
-        if(Integer.parseInt(number) == attempt) isOver = true;
-    }
-
-    private Stage createStage(int attempt) {
+    private Stage createStage(String attempt) {
         Stage stage = Stage.newInstance();
-        stage.setAttemptNumber(stageCount);
+        stage.setAttemptCount(stageCount);
+        stage.setAttempt(attempt);
         String legend = createLegend(attempt);
         stage.setLegend(legend);
-        if (this.isOver()) stage.setWonStage(true);
+        if (this.isOver()) stage.setWon(true);
         return stage;
     }
 
-    private String createLegend(int attempt) {
-        String attemptToString = String.valueOf(attempt);
-        checkAndThrow(attemptToString);
+    private void checkWinConditions(String attempt) {
+        if(number.equals(attempt)) isOver = true;
+    }
+
+    private String createLegend(String attempt) {
+        checkAndThrow(attempt);
 
         Integer bull = 0;
         Integer cow = 0;
-        bull = checkBulls(attemptToString);
-        cow = checkCows(attemptToString);
+        bull = checkBulls(attempt);
+        cow = checkCows(attempt);
         return bull.toString() + "Б" + cow.toString() + "К";
     }
 

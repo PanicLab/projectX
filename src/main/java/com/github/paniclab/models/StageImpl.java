@@ -3,22 +3,33 @@ package com.github.paniclab.models;
 import java.util.Objects;
 
 class StageImpl implements Stage {
-    private int attemptNumber;
+    private int attemptCount;
+    private String attempt;
     private String legend;
-    private boolean isWonStage;
+    private boolean isWon;
 
     StageImpl() {
-        this.isWonStage = false;
+        this.isWon = false;
     }
 
     @Override
-    public void setAttemptNumber(int attemptNumber) {
-        this.attemptNumber = attemptNumber;
+    public void setAttemptCount(int attemptNumber) {
+        this.attemptCount = attemptNumber;
     }
 
     @Override
-    public int getAttemptNumber() {
-        return attemptNumber;
+    public int getAttemptCount() {
+        return attemptCount;
+    }
+
+    @Override
+    public String getAttempt() {
+        return attempt;
+    }
+
+    @Override
+    public void setAttempt(String attempt) {
+        this.attempt = attempt;
     }
 
     @Override
@@ -32,18 +43,18 @@ class StageImpl implements Stage {
     }
 
     @Override
-    public void setWonStage(boolean isWon) {
-        isWonStage = isWon;
+    public void setWon(boolean isWon) {
+        this.isWon = isWon;
     }
 
     @Override
-    public boolean isWonStage() {
-        return isWonStage;
+    public boolean isWon() {
+        return isWon;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(attemptNumber, legend, isWonStage);
+        return Objects.hash(attemptCount, attempt, legend, isWon);
     }
 
     @Override
@@ -53,7 +64,9 @@ class StageImpl implements Stage {
         if(!(this.hashCode() == obj.hashCode())) return false;
         if(!(obj instanceof Stage)) return false;
         Stage other = Stage.class.cast(obj);
-        return this.getAttemptNumber() == other.getAttemptNumber() &&
-                this.getLegend().equals(other.getLegend()) && this.isWonStage() == other.isWonStage();
+        return this.getAttemptCount() == other.getAttemptCount() &&
+                this.getAttempt().equals(other.getAttempt()) &&
+                this.getLegend().equals(other.getLegend()) &&
+                this.isWon() == other.isWon();
     }
 }

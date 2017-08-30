@@ -25,7 +25,7 @@ public class GameLauncherServlet extends HttpServlet {
         request.getSession().setAttribute("game", gameSession);
         LOGGER.info("Создан новый объект GameSession. Загадано число: " + gameSession.getNumber());
 
-        request.getRequestDispatcher("/game").forward(request, response);
+        request.getRequestDispatcher("game.jsp").forward(request, response);
         System.out.println("Выход из GameLauncherServlet");
     }
 

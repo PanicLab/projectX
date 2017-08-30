@@ -5,10 +5,12 @@ public interface Stage {
         return new StageImpl();
     }
 
-    int getAttemptNumber();
-    void setAttemptNumber(int attemptNumber);
+    int getAttemptCount();
+    void setAttemptCount(int attemptCount);
+    String getAttempt();
+    void setAttempt(String attempt);
     String getLegend();
     void setLegend(String legend);
-    void setWonStage(boolean isWon);
-    boolean isWonStage();
+    void setWon(boolean isWon);
+    boolean isWon();
 }

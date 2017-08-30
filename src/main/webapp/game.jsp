@@ -9,7 +9,6 @@
 </head>
 <body>
 
-
     <div class="wrapper">
         <div>
             <p>Это страничка игры. Здесь развиваются все события.</p>
@@ -17,6 +16,37 @@
             <p>(Тест) попытка № ${game.stageCount + 1}</p>
             <p>(Тест) число: ${game.number}</p>
         </div>
+        <div>
+            <c:forEach var="stage" items="${game.stageList}" varStatus="current">
+                <div>
+                <c:import url="stage.jsp">
+                    <c:param name="stage_number" value="${stage.attemptCount}"/>
+                    <c:param name="attempt" value="${stage.attempt}"/>
+                    <c:param name="legend" value="${stage.legend}"/>
+<%--                    <c:choose>
+                        <c:when test="${stage.won}">
+                            <c:param name="sucsess" value="Победа!"/>
+                        </c:when>
+                        <c:otherwise>
+                            <c:param name="sucsess" value="Неудача"/>
+                        </c:otherwise>
+                    </c:choose>--%>
+                </c:import>
+                </div>
+            </c:forEach>
+        </div>
+
+        <c:choose>
+            <c:when test="${game.over}">
+                <p>Победа!</p>
+            </c:when>
+            <c:otherwise>
+                <div>
+                    <c:import url="attempt.jsp"></c:import>
+                </div>
+            </c:otherwise>
+        </c:choose>
     </div>
+
 </body>
 </html>

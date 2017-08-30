@@ -9,11 +9,17 @@
 }
 
 .wrapper {
+    position: relative;
     margin: 0 auto;
 }
 
 .wrapper div {
     text-align: center;
+    display: block;
+}
+
+.stage div {
+    display: inline-block;
 }
 
 legend, caption{
@@ -22,6 +28,8 @@ legend, caption{
 }
 
 table {
+    position: relative;
+    margin: auto;
     font-size: 14px;
     background: white;
     max-width: 70%;
