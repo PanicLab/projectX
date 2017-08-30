@@ -8,6 +8,14 @@
     color: red;
 }
 
+.wrapper {
+    margin: 0 auto;
+}
+
+.wrapper div {
+    text-align: center;
+}
+
 legend, caption{
     font-weight: bold;
     color: red;

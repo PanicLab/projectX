@@ -86,6 +86,12 @@ class GameSessionImpl implements GameSession {
         return result;
     }
 
+
+    @Override
+    public int getStageCount() {
+        return stageCount;
+    }
+
     @Override
     public String getNumber() {
         return this.number;

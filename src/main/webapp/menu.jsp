@@ -9,7 +9,7 @@
 </head>
 <body>
 
-    Профиль: ${userName}
+    Вперед, ${user.name}!
 
     <fieldset>
         <legend>Таблица результатов</legend>
@@ -80,7 +80,7 @@
         </table>
     </fieldset>
     <div class="simple_block">
-        <p><a href="game">Начать игру</a>
+        <p><a href="launcher">Начать игру</a>
     </div>
 </body>
 </html>
