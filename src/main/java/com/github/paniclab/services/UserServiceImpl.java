@@ -31,17 +31,10 @@ class UserServiceImpl implements UserService {
                     "AUTHORITY DESC";
             ResultSet rs = statement.executeQuery(sql);
 
-            while (rs.next()) {
-                User user = User.newInstance();
-                user.setId(rs.getLong("ID"));
-                user.setName(rs.getString("NAME"));
-                user.setBestResult(rs.getInt("BEST_RESULT"));
-                user.setLastResult(rs.getInt("LAST_RESULT"));
-                user.setAttemptsCount(rs.getInt("ATTEMPTS_COUNT"));
-                user.setAverageResult(rs.getFloat("AVERAGE_RESULT"));
-                user.setAuthority(rs.getInt("AUTHORITY"));
-
+            User user = extractUserFrom(rs);
+            while (user.isNotEmpty()) {
                 result.add(user);
+                user = extractUserFrom(rs);
             }
             LOGGER.info("Список игроков успешно извлечен из БД." + (result.size() == 0 ? " Однако он пуст." : ""));
         } catch (SQLException e) {

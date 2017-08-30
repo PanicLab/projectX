@@ -73,7 +73,7 @@ public class GameMenuFilter implements Filter {
                 }
             }
         }
-        System.out.println("Поток управления покидает в GameMenuFilter");
+        System.out.println("Выход из GameMenuFilter");
     }
 
     private Profile createProfile(ServletRequest req) {
