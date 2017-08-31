@@ -23,14 +23,6 @@
                     <c:param name="stage_number" value="${stage.attemptCount}"/>
                     <c:param name="attempt" value="${stage.attempt}"/>
                     <c:param name="legend" value="${stage.legend}"/>
-<%--                    <c:choose>
-                        <c:when test="${stage.won}">
-                            <c:param name="sucsess" value="Победа!"/>
-                        </c:when>
-                        <c:otherwise>
-                            <c:param name="sucsess" value="Неудача"/>
-                        </c:otherwise>
-                    </c:choose>--%>
                 </c:import>
                 </div>
             </c:forEach>
@@ -42,7 +34,7 @@
             </c:when>
             <c:otherwise>
                 <div>
-                    <c:import url="attempt.jsp"></c:import>
+                    <c:import url="attempt.jsp"/>
                 </div>
             </c:otherwise>
         </c:choose>
