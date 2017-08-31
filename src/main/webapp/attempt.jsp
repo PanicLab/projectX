@@ -26,10 +26,10 @@
             <c:if test="${not empty param.digit_4}">
                 <c:set var="digit_4" value="${param.digit_4}"/>
             </c:if>
-            <input type="number" name="digit_1" min="0" max="9" value="${pageScope.digit_1}"/>
-            <input type="number" name="digit_2" min="0" max="9" value="${pageScope.digit_2}"/>
-            <input type="number" name="digit_3" min="0" max="9" value="${pageScope.digit_3}"/>
-            <input type="number" name="digit_4" min="0" max="9" value="${pageScope.digit_4}"/>
+            <input title="" type="number" name="digit_1" min="0" max="9" value="${pageScope.digit_1}"/>
+            <input title="" type="number" name="digit_2" min="0" max="9" value="${pageScope.digit_2}"/>
+            <input title="" type="number" name="digit_3" min="0" max="9" value="${pageScope.digit_3}"/>
+            <input title="" type="number" name="digit_4" min="0" max="9" value="${pageScope.digit_4}"/>
             <button>Угадать</button>
         </form>
     </div>
