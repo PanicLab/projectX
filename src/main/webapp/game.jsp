@@ -34,7 +34,12 @@
             </c:when>
             <c:otherwise>
                 <div>
-                    <c:import url="attempt.jsp"/>
+                    <c:import url="attempt.jsp">
+                        <c:param name="digit_1" value="${requestScope.digit_1}"/>
+                        <c:param name="digit_2" value="${requestScope.digit_2}"/>
+                        <c:param name="digit_3" value="${requestScope.digit_3}"/>
+                        <c:param name="digit_4" value="${requestScope.digit_4}"/>
+                    </c:import>
                 </div>
             </c:otherwise>
         </c:choose>
