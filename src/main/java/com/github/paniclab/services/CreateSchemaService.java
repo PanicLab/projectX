@@ -2,6 +2,7 @@ package com.github.paniclab.services;
 
 
 import javax.servlet.ServletContext;
+import java.nio.file.Path;
 import java.sql.Connection;
 
 public interface CreateSchemaService extends AutoCloseable {

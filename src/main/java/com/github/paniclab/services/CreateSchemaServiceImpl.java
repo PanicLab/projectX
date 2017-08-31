@@ -2,20 +2,21 @@ package com.github.paniclab.services;
 
 
 import org.h2.jdbcx.JdbcConnectionPool;
+import org.h2.tools.RunScript;
 
 import javax.servlet.ServletContext;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Logger;
 
 class CreateSchemaServiceImpl implements CreateSchemaService {
     private static final Logger LOGGER = Logger.getAnonymousLogger();
     private Connection connection;
+    private Path scriptPath;
 
     CreateSchemaServiceImpl(Connection c) {
         connection = c;
@@ -23,10 +24,15 @@ class CreateSchemaServiceImpl implements CreateSchemaService {
 
     CreateSchemaServiceImpl(ServletContext cxt) {
         LOGGER.info("Попытка создания службы CreateSchemaService...");
+        String relativeSQLScriptPath = cxt.getInitParameter("db.schema_script_path");
+        scriptPath = Paths.get(cxt.getRealPath("/"), relativeSQLScriptPath);
+        LOGGER.info("Путь к SQL скриптам определен как: " + scriptPath);
+
         JdbcConnectionPool pool = (JdbcConnectionPool)cxt.getAttribute("connection_pool");
         if(pool == null) throw new IllegalStateException("Не удалось получить объект JdbcConnectionPool из " +
                 "контекста приложения. Возможно его сначалу нужно туда поместить.");
         LOGGER.info(pool == null ? "" : "Объект JdbcConnectionPool успешно извлечен из контекста приложения.");
+
         try {
             connection = pool.getConnection();
             LOGGER.info("Объект Connection получен успешно.");
@@ -40,96 +46,34 @@ class CreateSchemaServiceImpl implements CreateSchemaService {
 
     @Override
     public boolean createSchema() {
-/*        Path path = Paths.get("/resources/sql/createSchema.sql");
-        path = toAbsolute(path);
+        LOGGER.info("Объект CreateSchemaService пытается создать схему БД при помощи скриптового файла...");
+        Path path = Paths.get(scriptPath.toString(), "createSchema.sql");
+        LOGGER.info("Путь к скриптовому файлу определен как " + path.toString());
         try {
             RunScript.execute(connection, Files.newBufferedReader(path));
             connection.close();
-            LOGGER.info("Sql script createSchema executed successfully");
-        } catch (SQLException | IOException e) {
-            e.printStackTrace();
-        }*/
-
-        String sql;
-        try (Statement statement = connection.createStatement()) {
-            sql = "CREATE TABLE IF NOT EXISTS GAME_USERS (\n" +
-                    "  ID BIGINT AUTO_INCREMENT,\n" +
-                    "  NAME VARCHAR(255) NOT NULL,\n" +
-                    "  SALT VARCHAR(44) NOT NULL,\n" +
-                    "  PASSWORD VARCHAR(64) NOT NULL,\n" +
-                    "  BEST_RESULT INT DEFAULT NULL,\n" +
-                    "  LAST_RESULT INT DEFAULT NULL,\n" +
-                    "  AVERAGE_RESULT DECIMAL DEFAULT NULL,\n" +
-                    "  ATTEMPTS_COUNT INT DEFAULT NULL,\n" +
-                    "  AUTHORITY INT DEFAULT 0\n" +
-                    ")";
-            statement.executeUpdate(sql);
-
-            sql = "ALTER TABLE GAME_USERS ADD CONSTRAINT IF NOT EXISTS game_users_pk PRIMARY KEY (ID);";
-            statement.executeUpdate(sql);
-
-            sql = "ALTER TABLE GAME_USERS ADD CONSTRAINT IF NOT EXISTS game_users_unique_names UNIQUE (NAME)";
-            statement.executeUpdate(sql);
-
-            sql = "MERGE INTO GAME_USERS (NAME, SALT, PASSWORD, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, " +
-                    "ATTEMPTS_COUNT, AUTHORITY) KEY (NAME) VALUES ('Владимир П.', '1', '1', 1, 1, 1, 6205, 86)";
-            statement.executeUpdate(sql);
-
-            sql = "MERGE INTO GAME_USERS (NAME, SALT, PASSWORD, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, " +
-                    "ATTEMPTS_COUNT, AUTHORITY) KEY (NAME) VALUES ('RAMZAN', '3', '3', 3, 148, 3, 1000, 10)";
-            statement.executeUpdate(sql);
-
-            sql = "MERGE INTO GAME_USERS (NAME, SALT, PASSWORD, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, " +
-                    "ATTEMPTS_COUNT, AUTHORITY) KEY (NAME) VALUES ('Albert E.', '6', '6', 6, 6, 7.5, 2, 0)";
-            statement.executeUpdate(sql);
-
-            sql = "MERGE INTO GAME_USERS (NAME, SALT, PASSWORD, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, " +
-                    "ATTEMPTS_COUNT, AUTHORITY) KEY (NAME) VALUES ('Воронин Лёня', '46', '46', 24, 35, 46.21, 314, 0)";
-            statement.executeUpdate(sql);
-
-            LOGGER.info("SQL схема создана успешно.");
+            LOGGER.info("Схема БД успешно создана при помощи скриптового файла.");
             return true;
-        }catch (SQLException e) {
+        } catch (SQLException | IOException e) {
+            LOGGER.severe("Не удалось создать схему, ошибка при обращении к БД.");
             e.printStackTrace();
         }
+
         return false;
-    }
-
-    private Path toAbsolute(Path path) {
-        URI uri = null;
-        try {
-            uri = getClass().getProtectionDomain().getCodeSource().getLocation()
-                    .toURI();
-        } catch (URISyntaxException e) {
-            LOGGER.severe("Не удалось определить путь к ресурсу.");
-            throw new InternalError(e);
-        }
-
-        return Paths.get(uri);
     }
 
 
     @Override
     public boolean dropSchema() {
-/*        Path path = Paths.get("/resources/sql/dropSchema.sql").toAbsolutePath();
-        path = toAbsolute(path);
+        LOGGER.info("Объект CreateSchemaService пытается удалить схему БД при помощи скриптового файла...");
+        Path path = Paths.get(scriptPath.toString(), "dropSchema.sql");
+        LOGGER.info("Путь к скриптовому файлу определен как " + path.toString());
         try {
-            RunScript.execute(connection, Files.newBufferedReader(path));
+            RunScript.execute(connection, Files.newBufferedReader(scriptPath));
             connection.close();
-        } catch (SQLException | IOException e) {
-            e.printStackTrace();
-        }
-
-        LOGGER.info("Sql script dropSchema executed successfully");
-        return true;*/
-
-        String sql;
-        try (Statement statement = connection.createStatement()) {
-            sql = "DROP TABLE IF EXISTS USERS";
-            statement.executeUpdate(sql);
             LOGGER.info("Sql script dropSchema executed successfully");
             return true;
-        }catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
         return false;
