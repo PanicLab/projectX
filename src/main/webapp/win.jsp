@@ -8,6 +8,9 @@
     <title>Бык-корова</title>
 </head>
 <body>
-    Всё, победа!
+    <c:import url="result_table.jsp"/>
+    <div class="simple_block">
+        <p><a href="launcher">Новая игра</a>
+    </div>
 </body>
 </html>

@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Logger;
 
 class UserServiceImpl implements UserService {
@@ -98,9 +99,8 @@ class UserServiceImpl implements UserService {
 
         LOGGER.info("UserService пытается обновить данные пользователя...");
         try (Statement statement = connection.createStatement()){
-            sql = String.format(
-                    "UPDATE GAME_USERS SET BEST_RESULT = %d, LAST_RESULT = %d, AVERAGE_RESULT = %f, " +
-                            "ATTEMPTS_COUNT = %d WHERE ID = %d",
+            sql = String.format(Locale.US,
+                    "UPDATE GAME_USERS SET BEST_RESULT = %d, LAST_RESULT = %d, AVERAGE_RESULT = %.2f, ATTEMPTS_COUNT = %d WHERE ID = %d",
                     user.getBestResult(),
                     user.getLastResult(),
                     user.getAverageResult(),
