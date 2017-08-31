@@ -2,6 +2,7 @@ package com.github.paniclab.services;
 
 import com.github.paniclab.models.User;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,6 +18,12 @@ class UserServiceImpl implements UserService {
 
     UserServiceImpl(Connection conn) {
         connection = conn;
+    }
+
+    UserServiceImpl(HttpServletRequest request) {
+        Connection connection = (Connection)request.getSession().getAttribute("connection");
+        LOGGER.info(connection == null ? "Объект Connection равен null!" : "Объект Connection получен успешно.");
+        this.connection = connection;
     }
 
     @Override
@@ -83,5 +90,10 @@ class UserServiceImpl implements UserService {
 
         LOGGER.info("Объект UserService возвращает пустой объект USER.");
         return User.newInstance();
+    }
+
+    @Override
+    public void persist(User user) {
+
     }
 }
