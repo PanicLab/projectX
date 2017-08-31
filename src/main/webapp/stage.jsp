@@ -3,8 +3,8 @@
 
 <html>
 <body>
-        <textarea title="" readonly>${param.stage_number}</textarea>
-        <textarea title="" readonly>${param.attempt}</textarea>
-        <textarea title="" readonly>${param.legend}</textarea>
+        <input title="" readonly value="${param.stage_number}"/>
+        <input title="" readonly value="${param.attempt}"/>
+        <input title="" readonly value="${param.legend}"/>
 </body>
 </html>

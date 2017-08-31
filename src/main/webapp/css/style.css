@@ -22,6 +22,11 @@
     text-align: center;
 }
 
+.wrapper textarea {
+    text-align: center;
+    vertical-align: middle;
+}
+
 .stage div {
     display: inline-block;
 }
