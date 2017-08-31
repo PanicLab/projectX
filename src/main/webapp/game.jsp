@@ -19,6 +19,13 @@
             <p>(Тест) число: ${game.number}</p>
         </div>
         <div>
+            <c:if test="${game.stageCount > 0}">
+                <c:import url="stage.jsp">
+                    <c:param name="stage_number" value="Попытка №"/>
+                    <c:param name="attempt" value="Число"/>
+                    <c:param name="legend" value="Легенда"/>
+                </c:import>
+            </c:if>
             <c:forEach var="stage" items="${game.stageList}" varStatus="current">
                 <div>
                 <c:import url="stage.jsp">
@@ -34,6 +41,7 @@
             <c:when test="${game.over}">
                 <div>
                     <p>Победа! Вы отгадали число за ${game.stageCount} попыток!</p>
+                    <p><a href="end_game">К таблице результатов</a></p>
                 </div>
             </c:when>
             <c:otherwise>
