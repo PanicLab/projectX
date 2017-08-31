@@ -1,6 +1,9 @@
 package com.github.paniclab.services;
 
 
+import org.h2.jdbcx.JdbcConnectionPool;
+
+import javax.servlet.ServletContext;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -16,6 +19,23 @@ class CreateSchemaServiceImpl implements CreateSchemaService {
 
     CreateSchemaServiceImpl(Connection c) {
         connection = c;
+    }
+
+    CreateSchemaServiceImpl(ServletContext cxt) {
+        LOGGER.info("Попытка создания службы CreateSchemaService...");
+        JdbcConnectionPool pool = (JdbcConnectionPool)cxt.getAttribute("connection_pool");
+        if(pool == null) throw new IllegalStateException("Не удалось получить объект JdbcConnectionPool из " +
+                "контекста приложения. Возможно его сначалу нужно туда поместить.");
+        LOGGER.info(pool == null ? "" : "Объект JdbcConnectionPool успешно извлечен из контекста приложения.");
+        try {
+            connection = pool.getConnection();
+            LOGGER.info("Объект Connection получен успешно.");
+            LOGGER.info("СОздание службы CreateSchemaService завершилось успешно.");
+        } catch (SQLException e) {
+            LOGGER.severe("Не удалось получить объект Connection. Ошибка при обращении к БД");
+            LOGGER.severe("Не удалось создать службу CreateSchemaService.");
+            e.printStackTrace();
+        }
     }
 
     @Override

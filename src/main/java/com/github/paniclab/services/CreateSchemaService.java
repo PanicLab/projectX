@@ -1,5 +1,7 @@
 package com.github.paniclab.services;
 
+
+import javax.servlet.ServletContext;
 import java.sql.Connection;
 
 public interface CreateSchemaService extends AutoCloseable {
@@ -10,7 +12,11 @@ public interface CreateSchemaService extends AutoCloseable {
     @Override
     void close();
 
-    static CreateSchemaService get(Connection connection) {
+    static CreateSchemaService create(Connection connection) {
         return new CreateSchemaServiceImpl(connection);
+    }
+
+    static CreateSchemaService create(ServletContext cxt) {
+        return new CreateSchemaServiceImpl(cxt);
     }
 }

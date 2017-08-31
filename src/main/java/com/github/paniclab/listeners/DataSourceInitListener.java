@@ -6,12 +6,11 @@ import org.h2.jdbcx.JdbcConnectionPool;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
-import javax.servlet.http.HttpSessionBindingEvent;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -35,26 +34,29 @@ public class DataSourceInitListener implements ServletContextListener,
             initialized(when the Web application is deployed).
              You can initialize servlet context related data here.
         */
-        final String BASE_DIR = sce.getServletContext().getRealPath("/");
+        ServletContext context = sce.getServletContext();
+
+        final String BASE_DIR = context.getRealPath("/");
         System.out.println("Базовая: " + BASE_DIR);
-        final String DB_RELATIVE_PATH = sce.getServletContext().getInitParameter("db.relative_path");
+        final String DB_RELATIVE_PATH = context.getInitParameter("db.relative_path");
         final String URL = "jdbc:h2:" + BASE_DIR + DB_RELATIVE_PATH;
         System.out.println("Вот такая итоговая URL базы данных: " + URL);
-
-        final String USER = sce.getServletContext().getInitParameter("db.user");
-        final String PASS = sce.getServletContext().getInitParameter("db.password");
+        final String USER = context.getInitParameter("db.user");
+        final String PASS = context.getInitParameter("db.password");
         JdbcConnectionPool pool = JdbcConnectionPool.create(URL,USER, PASS);
-        sce.getServletContext().setAttribute("connection_pool", pool);
-        LOGGER.info("Jdbc h2 connection pool initialized");
+        context.setAttribute("connection_pool", pool);
+        LOGGER.info("Объект JdbcConnectionPool создан.");
         LOGGER.info("URL базы данных: " + URL);
         LOGGER.info("Логин пользователя: " + USER);
         LOGGER.info("Пароль пользователя: " + PASS);
 
-        try (CreateSchemaService schemaService = CreateSchemaService.get(pool.getConnection())) {
+        CreateSchemaService.create(context).createSchema();
+
+/*        try (CreateSchemaService schemaService = CreateSchemaService.create(pool.getConnection())) {
             schemaService.createSchema();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
 
@@ -77,7 +79,7 @@ public class DataSourceInitListener implements ServletContextListener,
         JdbcConnectionPool pool = (JdbcConnectionPool)sce.getServletContext().getAttribute("connection_pool");
 
         //TODO clean from production code ------------>
-/*        try (CreateSchemaService schemaService = CreateSchemaService.get(pool.getConnection())) {
+/*        try (CreateSchemaService schemaService = CreateSchemaService.create(pool.getConnection())) {
             schemaService.dropSchema();
         } catch (SQLException e) {
             e.printStackTrace();
