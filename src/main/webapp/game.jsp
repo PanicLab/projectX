@@ -40,7 +40,8 @@
         <c:choose>
             <c:when test="${game.over}">
                 <div>
-                    <p>Победа! Вы отгадали число за ${game.stageCount} попыток!</p>
+                    <p>Победа! Вы отгадали, это действительно было число ${game.number}.</p>
+                    <p>Понадобилось попыток: ${game.stageCount}</p>
                     <p><a href="end_game">К таблице результатов</a></p>
                 </div>
             </c:when>
