@@ -11,6 +11,7 @@
 .wrapper {
     position: relative;
     margin: 0 auto;
+    line-height: 50%
 }
 
 .wrapper div {
