@@ -94,6 +94,25 @@ class UserServiceImpl implements UserService {
 
     @Override
     public void persist(User user) {
+        String sql;
 
+        LOGGER.info("UserService пытается обновить данные пользователя...");
+        try (Statement statement = connection.createStatement()){
+            sql = String.format(
+                    "UPDATE GAME_USERS SET BEST_RESULT = %d, LAST_RESULT = %d, AVERAGE_RESULT = %f, " +
+                            "ATTEMPTS_COUNT = %d WHERE ID = %d",
+                    user.getBestResult(),
+                    user.getLastResult(),
+                    user.getAverageResult(),
+                    user.getAttemptsCount(),
+                    user.getId()
+            );
+            int rowsAffected = statement.executeUpdate(sql);
+            if (rowsAffected == 1) LOGGER.info("Данные пользователя успешно обнавлены.");
+
+        } catch (SQLException e) {
+            LOGGER.info("Не удалось обновить данные пользователя. Ошибка при обращении к БД.");
+            e.printStackTrace();
+        }
     }
 }

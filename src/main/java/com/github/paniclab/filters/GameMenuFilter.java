@@ -69,7 +69,7 @@ public class GameMenuFilter implements Filter {
                     LOGGER.info("Фильтр: Пользователь с таким именем существует");
 
                     req.setAttribute("head", "Ошибка.");
-                    req.setAttribute("message", "Пользователя с таким именем уже существует.");
+                    req.setAttribute("message", "Пользователь с таким именем уже существует.");
                     System.out.println("GameMenuFilter пробрасывает на error.jsp");
                     req.getRequestDispatcher("/error.jsp").forward(req, resp);
                 } else {

@@ -119,7 +119,7 @@ class ProfileServiceImpl implements ProfileService {
             password = util.getHashed(salt + profile.password());
             LOGGER.info("Хеширование пароля завершилось успешно.");
         } catch (NoSuchAlgorithmException e) {
-            LOGGER.severe("Не удалось сохранить профиль " + profile + "Операция хеширования пароля не удалась.");
+            LOGGER.severe("Не удалось сохранить профиль " + profile + ". Операция хеширования пароля не удалась.");
             e.printStackTrace();
             return false;
         }
@@ -131,7 +131,7 @@ class ProfileServiceImpl implements ProfileService {
             LOGGER.info("Сохранение профиля прошло успешно. Профиль: " + profile);
             return true;
         } catch (SQLException e) {
-            LOGGER.severe("Не удалось сохранить профиль " + profile + "Ошибка при обращении к БД.");
+            LOGGER.severe("Не удалось сохранить профиль " + profile + ". Ошибка при обращении к БД.");
             e.printStackTrace();
             return false;
         }
