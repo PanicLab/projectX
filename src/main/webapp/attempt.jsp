@@ -8,7 +8,6 @@
 </head>
 
 <body>
-    <div style="display: inline-block">
         <form action="game" method="post">
             <c:set var="digit_1" value="0" scope="page"/>
             <c:if test="${not empty param.digit_1}">
@@ -32,6 +31,5 @@
             <input title="" type="number" name="digit_4" min="0" max="9" value="${pageScope.digit_4}"/>
             <button>Угадать</button>
         </form>
-    </div>
 </body>
 </html>

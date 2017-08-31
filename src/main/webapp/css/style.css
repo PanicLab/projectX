@@ -18,6 +18,10 @@
     display: block;
 }
 
+.wrapper input {
+    text-align: center;
+}
+
 .stage div {
     display: inline-block;
 }
