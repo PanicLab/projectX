@@ -2,12 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>" />
-</head>
-
-<body>
+    <body>
         <form action="game" method="post">
             <c:set var="digit_1" value="0" scope="page"/>
             <c:if test="${not empty param.digit_1}">
@@ -31,5 +26,5 @@
             <input title="" type="number" name="digit_4" min="0" max="9" value="${pageScope.digit_4}"/>
             <button>Угадать</button>
         </form>
-</body>
+    </body>
 </html>
