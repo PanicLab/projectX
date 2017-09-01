@@ -15,10 +15,6 @@
                     <td> <input type="text" name="firstName" placeholder="Имя" required="required"></td>
                 </tr>
                 <tr>
-                    <td>Фамилия</td>
-                    <td> <input type="text" name="lastName" placeholder="Фамилия" required="required"></td>
-                </tr>
-                <tr>
                     <td>Пароль</td>
                     <td> <input type="password" name="password" placeholder="Пароль" required="required"></td>
                 </tr>

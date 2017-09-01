@@ -11,5 +11,5 @@ public interface ProfileService {
 
     boolean isExist(Profile profile);
     boolean isPasswordValid(Profile profile);
-    boolean saveNew(Profile profile);
+    boolean persist(Profile profile);
 }

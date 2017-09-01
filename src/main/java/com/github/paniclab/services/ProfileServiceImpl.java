@@ -50,25 +50,6 @@ class ProfileServiceImpl implements ProfileService {
         }
     }
 
-/*    @Override
-    public boolean isValid(Profile profile) {
-        String sql = "SELECT SALT FROM GAME_USERS WHERE NAME = " + profile.userName();
-
-        try (Statement statement = connection.createStatement()){
-            ResultSet rs = statement.executeQuery(sql);
-            rs.next();
-            if (rs.wasNull()) return false;
-            String password = rs.getString("PASSWORD");
-            if(password.equals(profile.password())) return true;
-            if (rs.next()) {
-                throw new InternalError("Обнаружена проблема с целостностью данных - два одинаковых имени пользователя" +
-                        " в базе данных. Обратитесь к разработчику.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }*/
 
     @Override
     public boolean isPasswordValid(Profile profile) {
@@ -110,7 +91,7 @@ class ProfileServiceImpl implements ProfileService {
 
 
     @Override
-    public boolean saveNew(Profile profile) {
+    public boolean persist(Profile profile) {
         String salt;
         String password;
         try {

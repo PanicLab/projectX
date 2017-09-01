@@ -74,7 +74,7 @@ public class GameMenuFilter implements Filter {
                     req.getRequestDispatcher("/WEB-INF/templates/error.jsp").forward(req, resp);
                 } else {
                     LOGGER.info("Фильтр: пользователя с таким именем не существует. Пытаемся сохранить профиль...");
-                    service.saveNew(profile);
+                    service.persist(profile);
                     req.setAttribute("userName", profile.userName());
                     User newUser = userService(req).getUserByName(profile.userName());
                     getSession(req).setAttribute("user", newUser);
@@ -88,11 +88,8 @@ public class GameMenuFilter implements Filter {
 
 
     private Profile createProfile(ServletRequest req) {
-        String firstName = req.getParameter("firstName");
-        String lastName = req.getParameter("lastName");
+        String name = req.getParameter("firstName");
         String password = req.getParameter("password");
-
-        String name = firstName + " " + lastName;
         LOGGER.info("Имя пользователя: " + name);
         return  Profile.valueOf(name, password);
     }
