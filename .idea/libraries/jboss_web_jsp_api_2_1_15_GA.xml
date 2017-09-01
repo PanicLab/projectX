@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="jboss.web:jsp-api:2.1.15.GA" type="repository">
+    <properties maven-id="jboss.web:jsp-api:2.1.15.GA" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/jboss/web/jsp-api/2.1.15.GA/jsp-api-2.1.15.GA.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
