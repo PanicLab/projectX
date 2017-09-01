@@ -21,7 +21,7 @@ public class GameMenuServlet extends HttpServlet {
         setUserListToRequest(request);
 
         System.out.println("GameMenuServlet пробрасывает в game_menu.jsp");
-        getServletContext().getRequestDispatcher("/menu.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/WEB-INF/templates/menu.jsp").forward(request, response);
         System.out.println("Поток управления покидает GameMenuServlet");
     }
 

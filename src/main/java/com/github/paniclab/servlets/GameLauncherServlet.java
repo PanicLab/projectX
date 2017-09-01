@@ -30,7 +30,7 @@ public class GameLauncherServlet extends HttpServlet {
 
         setInitialDigits(request, gameSession);
 
-        request.getRequestDispatcher("game.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/templates/game.jsp").forward(request, response);
         System.out.println("Выход из GameLauncherServlet");
     }
 

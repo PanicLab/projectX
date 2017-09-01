@@ -11,7 +11,7 @@ public class AuthenticationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("Поток управления внутри сервлета AuthenticationServlet");
         System.out.println("AuthenticationServlet пробрасывает на login.jsp");
-        getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/WEB-INF/templates/login.jsp").forward(request, response);
         System.out.println("Поток управления покидает сервлет AuthenticationServlet");
     }
 

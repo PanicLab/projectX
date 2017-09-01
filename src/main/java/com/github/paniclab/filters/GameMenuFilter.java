@@ -50,14 +50,14 @@ public class GameMenuFilter implements Filter {
                         req.setAttribute("head", "Ошибка.");
                         req.setAttribute("message", "Пароль введен неверно.");
                         System.out.println("GameMenuFilter пробрасывает на error.jsp");
-                        req.getRequestDispatcher("/error.jsp").forward(req, resp);
+                        req.getRequestDispatcher("/WEB-INF/templates/error.jsp").forward(req, resp);
                     }
                 } else {
                     LOGGER.info("Попытка залогиниться завершилась неудачно.");
                     req.setAttribute("head", "Ошибка.");
                     req.setAttribute("message", "Пользователя с таким именем не существует.");
                     System.out.println("GameMenuFilter пробрасывает на error.jsp");
-                    req.getRequestDispatcher("/error.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/WEB-INF/templates/error.jsp").forward(req, resp);
                 }
                 break;
             }
@@ -71,7 +71,7 @@ public class GameMenuFilter implements Filter {
                     req.setAttribute("head", "Ошибка.");
                     req.setAttribute("message", "Пользователь с таким именем уже существует.");
                     System.out.println("GameMenuFilter пробрасывает на error.jsp");
-                    req.getRequestDispatcher("/error.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/WEB-INF/templates/error.jsp").forward(req, resp);
                 } else {
                     LOGGER.info("Фильтр: пользователя с таким именем не существует. Пытаемся сохранить профиль...");
                     service.saveNew(profile);

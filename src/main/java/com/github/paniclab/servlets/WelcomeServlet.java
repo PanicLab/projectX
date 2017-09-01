@@ -11,7 +11,7 @@ public class WelcomeServlet extends HttpServlet {
         System.out.println("Вход в WelcomeServlet");
 
         System.out.println("WelcomeServlet пробрасывает на index.jsp");
-        getServletContext().getRequestDispatcher("/index.jsp").forward(request,response);
+        getServletContext().getRequestDispatcher("/WEB-INF/templates/index.jsp").forward(request,response);
         System.out.println("Выход из WelcomeServlet");
     }
 

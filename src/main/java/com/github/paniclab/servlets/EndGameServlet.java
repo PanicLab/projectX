@@ -18,7 +18,7 @@ public class EndGameServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOGGER.info("Идет обработка результатов игры...");
         processGameResult(request);
-        request.getRequestDispatcher("win.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/templates/win.jsp").forward(request, response);
     }
 
     private void processGameResult(HttpServletRequest request) {
