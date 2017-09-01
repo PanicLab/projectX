@@ -30,6 +30,7 @@ public class DataSourceInitListener implements ServletContextListener, HttpSessi
 
         buildJdbcConnectionPool(context);
         createSchema(context);
+        LOGGER.info("Контекст приложения инициализирован.");
     }
 
     private void buildJdbcConnectionPool(ServletContext cxt) {
@@ -69,14 +70,14 @@ public class DataSourceInitListener implements ServletContextListener, HttpSessi
         ServletContext context = sce.getServletContext();
 
         closeDatabase(context);
-        deregisterJdbcDrivers();
+        deregisterDriver("jdbc:h2:org.h2.Driver");
         LOGGER.info("Контекст приложения закрыт.");
     }
 
     private void closeDatabase(ServletContext context) {
         JdbcConnectionPool pool = (JdbcConnectionPool)context.getAttribute("connection_pool");
         if(pool != null) {
-            try (Connection connection = pool.getConnection();){
+            try (Connection connection = pool.getConnection()){
                 Statement statement = connection.createStatement();
                 statement.executeUpdate("SHUTDOWN ");
                 LOGGER.info("База данных успешно закрыта.");
@@ -84,6 +85,17 @@ public class DataSourceInitListener implements ServletContextListener, HttpSessi
                 LOGGER.warning("Не удалось закрыть базу данных.");
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void deregisterDriver(String url) {
+        try {
+            Driver driver = DriverManager.getDriver(url);
+            DriverManager.deregisterDriver(driver);
+            LOGGER.info("Драйвер " + url + " дерегестрирован успешно.");
+        } catch (SQLException e) {
+            LOGGER.warning("Не удалось дерегестрировать драйвер " + url);
+            e.printStackTrace();
         }
     }
 
@@ -108,29 +120,43 @@ public class DataSourceInitListener implements ServletContextListener, HttpSessi
 
     @Override
     public void sessionCreated(HttpSessionEvent se) {
+        bindConnection(se);
+        LOGGER.info("Сессия " + se.getSession() + " создана успешно.");
+    }
+
+    private void bindConnection(HttpSessionEvent se) {
         JdbcConnectionPool pool =
                 (JdbcConnectionPool) se.getSession().getServletContext().getAttribute("connection_pool");
         try {
             Connection connection = pool.getConnection();
             se.getSession().setAttribute("connection", connection);
+            LOGGER.info("Объект connection присединен к сессии " + se.getSession());
         } catch (SQLException e) {
+            LOGGER.severe("Не удалось присоединить объект connection к сессии " + se.getSession());
             e.printStackTrace();
         }
     }
 
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
+        closeBindingConnection(se);
+        LOGGER.info("Сессия " + se.getSession() + " закрыта.");
+    }
+
+    private void closeBindingConnection(HttpSessionEvent se) {
         Connection connection = (Connection)se.getSession().getAttribute("connection");
         if(connection != null) {
             try {
                 connection.close();
+                LOGGER.info("Присоединенный к сессии объект Connection закрыт.");
             } catch (SQLException e) {
+                LOGGER.warning("Не удалось закрыть объект Connection при закрытии сессии.");
                 e.printStackTrace();
             }
         }
 
-        JdbcConnectionPool pool =
+/*        JdbcConnectionPool pool =
                 (JdbcConnectionPool) se.getSession().getServletContext().getAttribute("connection_pool");
-        pool.dispose();
+        pool.dispose();*/
     }
 }

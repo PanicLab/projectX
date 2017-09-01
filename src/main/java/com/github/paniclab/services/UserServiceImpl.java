@@ -82,7 +82,7 @@ class UserServiceImpl implements UserService {
             User user = extractUserFrom(resultSet);
             if(resultSet.next()) throw new InternalError("Обнаружены проблемы с целостностью данных (несколько " +
                     "пользователей с одинаковыми именами). Обратитесь к разработчику.");
-            LOGGER.info("Объект User с именем " + userName + "найден и успешно извлечен из БД.");
+            LOGGER.info("Объект User с именем " + userName + " найден и успешно извлечен из БД.");
             return user;
         } catch (SQLException e) {
             LOGGER.severe("Не удалось извлечь объект User. Ошибка при обращении к БД.");

@@ -68,7 +68,7 @@ class ProfileImpl implements Profile {
     @Override
     public String toString() {
         String result = "Объект: " + getClass().getCanonicalName() + ". " +
-        "@" + hashCode() + ". Имя: " + name + ". ";
+        "@" + hashCode() + ". Имя: " + name + " ";
         return result;
     }
 }
