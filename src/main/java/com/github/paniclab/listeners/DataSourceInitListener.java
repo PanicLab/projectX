@@ -3,17 +3,12 @@ package com.github.paniclab.listeners;
 import com.github.paniclab.services.CreateSchemaService;
 import org.h2.jdbcx.JdbcConnectionPool;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
-import javax.sql.DataSource;
 import java.sql.*;
-import java.util.Enumeration;
 import java.util.logging.Logger;
 
 public class DataSourceInitListener implements ServletContextListener, HttpSessionListener {
@@ -55,15 +50,7 @@ public class DataSourceInitListener implements ServletContextListener, HttpSessi
         schemaService.close();
     }
 
-    private DataSource getDataSource() {
-        try {
-            Context context = (Context) new InitialContext().lookup("java:comp/env");
-            return  (DataSource) context.lookup("jdbc/db");
-        } catch (NamingException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
@@ -95,23 +82,6 @@ public class DataSourceInitListener implements ServletContextListener, HttpSessi
             LOGGER.info("Драйвер " + url + " дерегестрирован успешно.");
         } catch (SQLException e) {
             LOGGER.warning("Не удалось дерегестрировать драйвер " + url);
-            e.printStackTrace();
-        }
-    }
-
-    private void deregisterJdbcDrivers() {
-        Enumeration<Driver> drivers = DriverManager.getDrivers();
-        while (drivers.hasMoreElements()) {
-            deregisterDriver(drivers.nextElement());
-        }
-    }
-
-    private void deregisterDriver(Driver driver) {
-        try {
-            DriverManager.deregisterDriver(driver);
-            LOGGER.info("Драйвер " + driver + " дерегестрирован успешно.");
-        } catch (SQLException e) {
-            LOGGER.warning("Не удалось дерегестрировать драйвер " + driver);
             e.printStackTrace();
         }
     }
@@ -154,9 +124,5 @@ public class DataSourceInitListener implements ServletContextListener, HttpSessi
                 e.printStackTrace();
             }
         }
-
-/*        JdbcConnectionPool pool =
-                (JdbcConnectionPool) se.getSession().getServletContext().getAttribute("connection_pool");
-        pool.dispose();*/
     }
 }
