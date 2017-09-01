@@ -29,7 +29,7 @@ public class DataSourceInitListener implements ServletContextListener, HttpSessi
         ServletContext context = sce.getServletContext();
 
         buildJdbcConnectionPool(context);
-        CreateSchemaService.create(context).createSchema();
+        createSchema(context);
     }
 
     private void buildJdbcConnectionPool(ServletContext cxt) {
@@ -46,6 +46,12 @@ public class DataSourceInitListener implements ServletContextListener, HttpSessi
         LOGGER.info("URL базы данных: " + URL);
         LOGGER.info("Логин пользователя: " + USER);
         LOGGER.info("Пароль пользователя: " + PASS);
+    }
+
+    private void createSchema(ServletContext context) {
+        CreateSchemaService schemaService = CreateSchemaService.create(context);
+        schemaService.createSchema();
+        schemaService.close();
     }
 
     private DataSource getDataSource() {
