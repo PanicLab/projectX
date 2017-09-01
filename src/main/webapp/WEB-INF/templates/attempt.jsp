@@ -3,7 +3,7 @@
 
 <html>
     <body>
-        <form action="game" method="post">
+        <form class="attempt" action="game" method="post">
             <c:set var="digit_1" value="0" scope="page"/>
             <c:if test="${not empty param.digit_1}">
                 <c:set var="digit_1" value="${param.digit_1}"/>

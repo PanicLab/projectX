@@ -23,13 +23,13 @@
     text-align: center;
 }
 
-.wrapper textarea {
-    text-align: center;
-    vertical-align: middle;
-}
 
 .stage div {
     display: inline-block;
+}
+
+.attempt input {
+    width: 7em;
 }
 
 legend, caption{
