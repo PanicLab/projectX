@@ -21,7 +21,6 @@ public class GameMenuFilter implements Filter {
 
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
-        System.out.println("Поток управления вошел в GameMenuFilter");
 
         Profile profile = createProfile(req);
         LOGGER.info("Для последующей проверки создан профиль с именем " + profile.userName());
@@ -42,21 +41,18 @@ public class GameMenuFilter implements Filter {
                         User newUser = userService(req).getUserByName(profile.userName());
                         getSession(req).setAttribute("user", newUser);
                         req.setAttribute("userName", profile.userName());
-                        System.out.println("GameMenuFilter вызывает doFilter()");
                         chain.doFilter(req, resp);
                     } else {
                         LOGGER.info("Фильтр: пароль для профиля введен неверно.");
                         LOGGER.info("Попытка залогиниться завершилась неудачно.");
                         req.setAttribute("head", "Ошибка.");
                         req.setAttribute("message", "Пароль введен неверно.");
-                        System.out.println("GameMenuFilter пробрасывает на error.jsp");
                         req.getRequestDispatcher("/WEB-INF/templates/error.jsp").forward(req, resp);
                     }
                 } else {
                     LOGGER.info("Попытка залогиниться завершилась неудачно.");
                     req.setAttribute("head", "Ошибка.");
                     req.setAttribute("message", "Пользователя с таким именем не существует.");
-                    System.out.println("GameMenuFilter пробрасывает на error.jsp");
                     req.getRequestDispatcher("/WEB-INF/templates/error.jsp").forward(req, resp);
                 }
                 break;
@@ -70,7 +66,6 @@ public class GameMenuFilter implements Filter {
 
                     req.setAttribute("head", "Ошибка.");
                     req.setAttribute("message", "Пользователь с таким именем уже существует.");
-                    System.out.println("GameMenuFilter пробрасывает на error.jsp");
                     req.getRequestDispatcher("/WEB-INF/templates/error.jsp").forward(req, resp);
                 } else {
                     LOGGER.info("Фильтр: пользователя с таким именем не существует. Пытаемся сохранить профиль...");
@@ -78,12 +73,10 @@ public class GameMenuFilter implements Filter {
                     req.setAttribute("userName", profile.userName());
                     User newUser = userService(req).getUserByName(profile.userName());
                     getSession(req).setAttribute("user", newUser);
-                    System.out.println("GameMenuFilter вызывает doFilter()");
                     chain.doFilter(req, resp);
                 }
             }
         }
-        System.out.println("Выход из GameMenuFilter");
     }
 
 

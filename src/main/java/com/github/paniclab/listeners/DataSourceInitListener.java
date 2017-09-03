@@ -30,18 +30,13 @@ public class DataSourceInitListener implements ServletContextListener, HttpSessi
 
     private void buildJdbcConnectionPool(ServletContext cxt) {
         final String BASE_DIR = cxt.getRealPath("/");
-        System.out.println("Базовая: " + BASE_DIR);
         final String DB_RELATIVE_PATH = cxt.getInitParameter("db.relative_path");
         final String URL = "jdbc:h2:" + BASE_DIR + DB_RELATIVE_PATH;
-        System.out.println("Вот такая итоговая URL базы данных: " + URL);
         final String USER = cxt.getInitParameter("db.user");
         final String PASS = cxt.getInitParameter("db.password");
         JdbcConnectionPool pool = JdbcConnectionPool.create(URL, USER, PASS);
         cxt.setAttribute("connection_pool", pool);
         LOGGER.info("Объект JdbcConnectionPool создан.");
-        LOGGER.info("URL базы данных: " + URL);
-        LOGGER.info("Логин пользователя: " + USER);
-        LOGGER.info("Пароль пользователя: " + PASS);
     }
 
     private void createSchema(ServletContext context) {
