@@ -10,19 +10,15 @@ import java.io.IOException;
 
 public class GameServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Поток управления входит в GameServlet");
-
-        final String attempt = extractAttempt(request);
+        final String attempt = extractAttemptFrom(request);
         GameSession game = (GameSession) request.getSession().getAttribute("game");
         game.makeNewAttempt(attempt);
 
-        setAttemptDigitAsRequestAttributes(request);
-        System.out.println("GameServlet пробрасывает на game.jsp");
+        setAttemptDigitsAsRequestAttributes(request);
         request.getRequestDispatcher("/WEB-INF/templates/game.jsp").forward(request, response);
-        System.out.println("Выход из GameServlet");
     }
 
-    private String extractAttempt(HttpServletRequest request) {
+    private String extractAttemptFrom(HttpServletRequest request) {
         String digit_1 = request.getParameter("digit_1");
         String digit_2 = request.getParameter("digit_2");
         String digit_3 = request.getParameter("digit_3");
@@ -30,7 +26,7 @@ public class GameServlet extends HttpServlet {
         return digit_1 + digit_2 + digit_3 + digit_4;
     }
 
-    private void setAttemptDigitAsRequestAttributes(HttpServletRequest request) {
+    private void setAttemptDigitsAsRequestAttributes(HttpServletRequest request) {
         String digit_1 = request.getParameter("digit_1");
         request.setAttribute("digit_1", Integer.valueOf(digit_1));
 

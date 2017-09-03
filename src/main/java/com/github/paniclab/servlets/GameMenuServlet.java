@@ -16,16 +16,11 @@ public class GameMenuServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getAnonymousLogger();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Поток управления входит в GameMenuServlet");
-
-        setUserListToRequest(request);
-
-        System.out.println("GameMenuServlet пробрасывает в game_menu.jsp");
+        extractUserListAndSetTo(request);
         getServletContext().getRequestDispatcher("/WEB-INF/templates/menu.jsp").forward(request, response);
-        System.out.println("Поток управления покидает GameMenuServlet");
     }
 
-    private void setUserListToRequest(HttpServletRequest request) {
+    private void extractUserListAndSetTo(HttpServletRequest request) {
         UserService service = getUserService(request);
         List<User> userList = service.getUsers();
         request.setAttribute("userList", userList);

@@ -16,8 +16,13 @@ public class GameLauncherServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getAnonymousLogger();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Поток управления входит в GameLauncherServlet");
 
+        createNewGameSessionAndSetTo(request);
+        setInitialDigitsTo(request);
+        request.getRequestDispatcher("/WEB-INF/templates/game.jsp").forward(request, response);
+    }
+
+    private void createNewGameSessionAndSetTo(HttpServletRequest request) {
         GameSession gameSession = (GameSession)request.getSession().getAttribute("game");
         if(gameSession == null) {
             gameSession = GameSession.newInstance();
@@ -27,14 +32,9 @@ public class GameLauncherServlet extends HttpServlet {
         }
         request.getSession().setAttribute("game", gameSession);
         LOGGER.info("Создан новый объект GameSession. Загадано число: " + gameSession.getNumber());
-
-        setInitialDigits(request, gameSession);
-
-        request.getRequestDispatcher("/WEB-INF/templates/game.jsp").forward(request, response);
-        System.out.println("Выход из GameLauncherServlet");
     }
 
-    private void setInitialDigits(HttpServletRequest request, GameSession game) {
+    private void setInitialDigitsTo(HttpServletRequest request) {
         List<String> digits = new ArrayList<>(4);
         Random rndGenerator = new Random();
         while (digits.size() < 4){

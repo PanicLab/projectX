@@ -28,7 +28,6 @@ public class GameMenuFilter implements Filter {
         ProfileService service = profileService(req);
 
         String mode = req.getParameter("mode");
-        LOGGER.info("Параметр mode запроса: " + mode);
         switch (mode) {
             case "login": {
                 LOGGER.info("Пользователь пытается залогиниться...");
