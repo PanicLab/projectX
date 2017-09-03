@@ -54,8 +54,8 @@ class GameSessionImpl implements GameSession {
     private String createLegend(String attempt) {
         checkAndThrow(attempt);
 
-        Integer bull = 0;
-        Integer cow = 0;
+        Integer bull;
+        Integer cow;
         bull = checkBulls(attempt);
         cow = checkCows(attempt);
         return bull.toString() + "Б" + cow.toString() + "К";

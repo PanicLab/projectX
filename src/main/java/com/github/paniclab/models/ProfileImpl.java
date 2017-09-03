@@ -19,20 +19,10 @@ class ProfileImpl implements Profile {
     }
 
     ProfileImpl(String name, String password) {
-/*        String salt;
-        try {
-            PasswordUtil util = new PasswordUtil();
-            salt = util.salt();
-            password = util.getHashed(salt + password);
-        } catch (NoSuchAlgorithmException e) {
-            password = "";
-            name = "";
-            salt = "";
-            e.printStackTrace();
-        }*/
         this.name = name;
         this.password = password;
     }
+
 
     @Override
     public String userName() {
@@ -67,8 +57,6 @@ class ProfileImpl implements Profile {
 
     @Override
     public String toString() {
-        String result = "Объект: " + getClass().getCanonicalName() + ". " +
-        "@" + hashCode() + ". Имя: " + name + " ";
-        return result;
+        return  "Объект: " + getClass().getCanonicalName() + ". " + "@" + hashCode() + ". Имя: " + name + " ";
     }
 }
