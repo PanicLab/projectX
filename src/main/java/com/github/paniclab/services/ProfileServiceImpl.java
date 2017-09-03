@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Locale;
 import java.util.logging.Logger;
 
 class ProfileServiceImpl implements ProfileService {
@@ -69,8 +70,6 @@ class ProfileServiceImpl implements ProfileService {
             }
 
             String hashedProfilePassword = getHashedPassword(salt + profile.password());
-            LOGGER.info("Введенный пароль после хеширования: " + hashedProfilePassword);
-            LOGGER.info("Пароль из базы данных: " + databasePassword);
             return hashedProfilePassword.equals(databasePassword);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -105,7 +104,7 @@ class ProfileServiceImpl implements ProfileService {
             return false;
         }
 
-        String sql = String.format("INSERT INTO GAME_USERS (NAME, SALT, PASSWORD) VALUES ('%s', '%s', '%s')",
+        String sql = String.format(Locale.US, "INSERT INTO GAME_USERS (NAME, SALT, PASSWORD) VALUES ('%s', '%s', '%s')",
                 profile.userName(), salt, password);
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);

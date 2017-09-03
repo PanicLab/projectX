@@ -18,6 +18,7 @@ class CreateSchemaServiceImpl implements CreateSchemaService {
     private Connection connection;
     private Path scriptPath;
 
+
     CreateSchemaServiceImpl(Connection c) {
         connection = c;
     }
@@ -26,7 +27,6 @@ class CreateSchemaServiceImpl implements CreateSchemaService {
         LOGGER.info("Попытка создания службы CreateSchemaService...");
         String relativeSQLScriptPath = cxt.getInitParameter("db.schema_script_path");
         scriptPath = Paths.get(cxt.getRealPath("/"), relativeSQLScriptPath);
-        LOGGER.info("Путь к SQL скриптам определен как: " + scriptPath);
 
         JdbcConnectionPool pool = (JdbcConnectionPool)cxt.getAttribute("connection_pool");
         if(pool == null) throw new IllegalStateException("Не удалось получить объект JdbcConnectionPool из " +
@@ -44,11 +44,11 @@ class CreateSchemaServiceImpl implements CreateSchemaService {
         }
     }
 
+
     @Override
     public boolean createSchema() {
         LOGGER.info("Объект CreateSchemaService пытается создать схему БД при помощи скриптового файла...");
         Path path = Paths.get(scriptPath.toString(), "createSchema.sql");
-        LOGGER.info("Путь к скриптовому файлу определен как " + path.toString());
         try {
             RunScript.execute(connection, Files.newBufferedReader(path));
             connection.close();
@@ -67,11 +67,10 @@ class CreateSchemaServiceImpl implements CreateSchemaService {
     public boolean dropSchema() {
         LOGGER.info("Объект CreateSchemaService пытается удалить схему БД при помощи скриптового файла...");
         Path path = Paths.get(scriptPath.toString(), "dropSchema.sql");
-        LOGGER.info("Путь к скриптовому файлу определен как " + path.toString());
         try {
-            RunScript.execute(connection, Files.newBufferedReader(scriptPath));
+            RunScript.execute(connection, Files.newBufferedReader(path));
             connection.close();
-            LOGGER.info("Sql script dropSchema executed successfully");
+            LOGGER.info("Схема базы данных удалена при помощи скриптового файла.");
             return true;
         } catch (SQLException | IOException e) {
             e.printStackTrace();

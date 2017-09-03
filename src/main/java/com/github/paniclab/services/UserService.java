@@ -2,7 +2,6 @@ package com.github.paniclab.services;
 
 import com.github.paniclab.models.User;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Connection;
 import java.util.List;

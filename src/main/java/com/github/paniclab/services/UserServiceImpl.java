@@ -39,10 +39,10 @@ class UserServiceImpl implements UserService {
                     "AUTHORITY DESC";
             ResultSet rs = statement.executeQuery(sql);
 
-            User user = extractUserFrom(rs);
+            User user = extractFrom(rs);
             while (user.isNotEmpty()) {
                 result.add(user);
-                user = extractUserFrom(rs);
+                user = extractFrom(rs);
             }
             LOGGER.info("Список игроков успешно извлечен из БД." + (result.size() == 0 ? " Однако он пуст." : ""));
         } catch (SQLException e) {
@@ -54,7 +54,7 @@ class UserServiceImpl implements UserService {
         return result;
     }
 
-    private User extractUserFrom(ResultSet rs) throws SQLException {
+    private User extractFrom(ResultSet rs) throws SQLException {
         User user = User.newInstance();
         if (rs.next()) {
             user.setId(rs.getLong("ID"));
@@ -76,10 +76,10 @@ class UserServiceImpl implements UserService {
         String sql;
 
         try (Statement statement = connection.createStatement()) {
-            sql = String.format("SELECT ID, NAME, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, ATTEMPTS_COUNT, AUTHORITY " +
-                    "FROM GAME_USERS WHERE NAME = '%s'", userName);
+            sql = String.format(Locale.US, "SELECT ID, NAME, BEST_RESULT, LAST_RESULT, AVERAGE_RESULT, " +
+                    "ATTEMPTS_COUNT, AUTHORITY FROM GAME_USERS WHERE NAME = '%s'", userName);
             ResultSet resultSet = statement.executeQuery(sql);
-            User user = extractUserFrom(resultSet);
+            User user = extractFrom(resultSet);
             if(resultSet.next()) throw new InternalError("Обнаружены проблемы с целостностью данных (несколько " +
                     "пользователей с одинаковыми именами). Обратитесь к разработчику.");
             LOGGER.info("Объект User с именем " + userName + " найден и успешно извлечен из БД.");
@@ -99,13 +99,13 @@ class UserServiceImpl implements UserService {
 
         LOGGER.info("UserService пытается обновить данные пользователя...");
         try (Statement statement = connection.createStatement()){
-            sql = String.format(Locale.US,
-                    "UPDATE GAME_USERS SET BEST_RESULT = %d, LAST_RESULT = %d, AVERAGE_RESULT = %.2f, ATTEMPTS_COUNT = %d WHERE ID = %d",
-                    user.getBestResult(),
-                    user.getLastResult(),
-                    user.getAverageResult(),
-                    user.getAttemptsCount(),
-                    user.getId()
+            sql = String.format(Locale.US, "UPDATE GAME_USERS SET BEST_RESULT = %d, LAST_RESULT = %d, " +
+                                            "AVERAGE_RESULT = %.2f, ATTEMPTS_COUNT = %d WHERE ID = %d",
+                                                user.getBestResult(),
+                                                user.getLastResult(),
+                                                user.getAverageResult(),
+                                                user.getAttemptsCount(),
+                                                user.getId()
             );
             int rowsAffected = statement.executeUpdate(sql);
             if (rowsAffected == 1) LOGGER.info("Данные пользователя успешно обнавлены.");
