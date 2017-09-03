@@ -13,7 +13,7 @@
     <title>Error</title>
 </head>
 <body>
-    <fieldset>
+    <fieldset class="simple_block">
         <legend>${requestScope.head}</legend>
         <div>
             ${requestScope.message}
